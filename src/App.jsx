@@ -421,7 +421,7 @@ textarea.fi{resize:vertical;min-height:120px}
 .c-mark::before{width:100%;height:1px}
 .c-mark::after{width:1px;height:100%}
 @media(max-width:900px){
-  .hero-art{width:100%!important;opacity:.35!important}
+  .hero-art{width:100%!important;opacity:.8!important}
   .style-grid{grid-template-columns:1fr!important}
   .style-grid .fc{border-left:1px solid #1e1e1e!important;border-top:1px solid #1e1e1e}
   .about-grid{grid-template-columns:1fr!important}
@@ -514,9 +514,9 @@ textarea.fi{resize:vertical;min-height:120px}
               "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775419873/20260215220045_IMG_3021_ed2yxb.jpg",
             ][slide]}
             alt="Inksomna"
-            style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center"}}
+            style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center",opacity:.8}}
           />
-          <div style={{position:"absolute",inset:0,background:"linear-gradient(to right,#080808 25%,transparent 100%)"}}/>
+          <div style={{position:"absolute",inset:0,background:"linear-gradient(to right,#080808 5%,transparent 100%)"}}/>
           <div style={{position:"absolute",inset:0,background:"linear-gradient(to top,#080808 0%,transparent 30%)"}}/>
         </div>
         <div style={{position:"relative",zIndex:2,padding:"0 24px 56px",maxWidth:820}} className="hero-pad">
