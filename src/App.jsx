@@ -345,7 +345,7 @@ export default function Inksomna(){
   const c3 = useCounter(8,1200,statsVis);
 
   useEffect(()=>{
-    const id=setInterval(()=>{setHeroFade(false);setTimeout(()=>{setSlide(s=>(s+1)%3);setHeroFade(true);},380);},5000);
+    const id=setInterval(()=>{setHeroFade(false);setTimeout(()=>{setSlide(s=>(s+1)%4);setHeroFade(true);},380);},5000);
     return()=>clearInterval(id);
   },[]);
 
@@ -421,7 +421,7 @@ textarea.fi{resize:vertical;min-height:120px}
 .c-mark::before{width:100%;height:1px}
 .c-mark::after{width:1px;height:100%}
 @media(max-width:900px){
-  .hero-art{display:none!important}
+  .hero-art{width:100%!important;opacity:.35!important}
   .style-grid{grid-template-columns:1fr!important}
   .style-grid .fc{border-left:1px solid #1e1e1e!important;border-top:1px solid #1e1e1e}
   .about-grid{grid-template-columns:1fr!important}
@@ -481,9 +481,12 @@ textarea.fi{resize:vertical;min-height:120px}
 
       {/* NAV */}
       <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:200,padding:"0 24px",height:64,display:"flex",alignItems:"center",justifyContent:"space-between",background:scrolled?"rgba(14,14,14,.97)":"transparent",borderBottom:scrolled?`1px solid ${BD}`:"none",backdropFilter:scrolled?"blur(10px)":"none",transition:"background .4s,border .4s"}}>
-        <div style={{display:"flex",flexDirection:"column",lineHeight:1.1,cursor:"pointer"}} onClick={()=>scrollTo("home")}>
-          <span style={{...serif,fontSize:15,fontWeight:300,letterSpacing:".3em",textTransform:"uppercase",color:W}}>Inksomna</span>
-          <span style={{...mono,fontSize:7,letterSpacing:".2em",textTransform:"uppercase",color:"#555",marginTop:2}}>Tattoo Art · {CITY}</span>
+        <div style={{display:"flex",alignItems:"center",gap:12,cursor:"pointer"}} onClick={()=>scrollTo("home")}>
+          <img src="/logo.svg" alt="Inksomna" style={{height:36,width:"auto",filter:"brightness(0) invert(1)",opacity:.9}}/>
+          <div style={{display:"flex",flexDirection:"column",lineHeight:1.1}}>
+            <span style={{...serif,fontSize:15,fontWeight:300,letterSpacing:".3em",textTransform:"uppercase",color:W}}>Inksomna</span>
+            <span style={{...mono,fontSize:7,letterSpacing:".2em",textTransform:"uppercase",color:"#555",marginTop:2}}>Tattoo Art · {CITY}</span>
+          </div>
         </div>
         <div className="nav-links" style={{display:"flex",gap:28,alignItems:"center"}}>
           {["Work","Events","About","FAQ","Booking"].map(x=>(
@@ -502,8 +505,19 @@ textarea.fi{resize:vertical;min-height:120px}
 
       {/* HERO */}
       <section id="home" style={{position:"relative",height:"100vh",minHeight:560,overflow:"hidden",display:"flex",alignItems:"flex-end",background:BG3}}>
-        <div className="hero-art" style={{position:"absolute",right:"8%",top:"50%",transform:"translateY(-50%)",width:"38vw",height:"72vh",display:"flex",alignItems:"center",justifyContent:"center",opacity:heroFade?.5:0,transition:"opacity .5s",pointerEvents:"none"}}>
-          {arts[slide%3]}
+        <div className="hero-art" style={{position:"absolute",right:0,top:0,width:"52%",height:"100%",opacity:heroFade?1:0,transition:"opacity .7s",pointerEvents:"none"}}>
+          <img
+            src={[
+              "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775416603/20251122151713_IMG_2208_dvqzlb.jpg",
+              "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775419027/20251122082238_IMG_2024_afwylk.jpg",
+              "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775419480/20251129222031_IMG_2640_xpdehb.jpg",
+              "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775419873/20260215220045_IMG_3021_ed2yxb.jpg",
+            ][slide]}
+            alt="Inksomna"
+            style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center"}}
+          />
+          <div style={{position:"absolute",inset:0,background:"linear-gradient(to right,#080808 25%,transparent 100%)"}}/>
+          <div style={{position:"absolute",inset:0,background:"linear-gradient(to top,#080808 0%,transparent 30%)"}}/>
         </div>
         <div style={{position:"relative",zIndex:2,padding:"0 24px 56px",maxWidth:820}} className="hero-pad">
           <p className="fu" style={{...mono,fontSize:9,letterSpacing:".3em",textTransform:"uppercase",color:"#666",marginBottom:20}}>Surrealism · Tattoo Art · {CITY}</p>
@@ -518,7 +532,7 @@ textarea.fi{resize:vertical;min-height:120px}
           </div>
         </div>
         <div style={{position:"absolute",bottom:28,right:24,display:"flex",gap:8,zIndex:5}}>
-          {[0,1,2].map(i=>(<span key={i} onClick={()=>{setHeroFade(false);setTimeout(()=>{setSlide(i);setHeroFade(true);},320);}} style={{width:i===slide?18:5,height:5,borderRadius:3,background:i===slide?"#fff":"#2e2e2e",cursor:"pointer",transition:"width .35s,background .35s"}}/>))}
+          {[0,1,2,4].map(i=>(<span key={i} onClick={()=>{setHeroFade(false);setTimeout(()=>{setSlide(i);setHeroFade(true);},320);}} style={{width:i===slide?18:5,height:5,borderRadius:3,background:i===slide?"#fff":"#2e2e2e",cursor:"pointer",transition:"width .35s,background .35s"}}/>))}
         </div>
         <div style={{position:"absolute",bottom:0,left:0,right:0,height:60,background:`linear-gradient(to bottom,transparent,${BG3})`,pointerEvents:"none"}}/>
       </section>
