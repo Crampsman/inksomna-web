@@ -11,6 +11,16 @@ const IG_HANDLE = "@inksomna";
 const IG_URL    = "https://instagram.com/inksomna";
 const CITY      = "Wrocław";
 
+/* ── Hero slider images ─────────────────────────────────────────
+   To swap or reorder photos just change the order of URLs here.
+─────────────────────────────────────────────────────────────────*/
+const HERO_SLIDES = [
+  "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775416603/20251122151713_IMG_2208_dvqzlb.jpg",
+  "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775419027/20251122082238_IMG_2024_afwylk.jpg",
+  "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775419480/20251129222031_IMG_2640_xpdehb.jpg",
+  "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775419873/20260215220045_IMG_3021_ed2yxb.jpg",
+];
+
 /* ── Events — each has a media[] array with mixed photos & videos ──
    type:  "photo" | "video"
    src:   Cloudinary URL for photos, YouTube embed URL for videos
@@ -192,6 +202,7 @@ function EventCard({ev, cardIndex, onVideoOpen}){
   const [cur,setCur]    = useState(0);
   const [hov,setHov]    = useState(false);
   const [fading,setFading] = useState(false);
+  const touchStartX = useRef(null);
   /* videos first — always shown as cover */
   const media = [...ev.media].sort((a,b)=> a.type==="video" ? -1 : b.type==="video" ? 1 : 0);
   const count = media.length;
@@ -207,6 +218,15 @@ function EventCard({ev, cardIndex, onVideoOpen}){
 
   const next = useCallback((e)=>{e.stopPropagation();goTo((cur+1)%count);},[cur,count,goTo]);
   const prev = useCallback((e)=>{e.stopPropagation();goTo((cur-1+count)%count);},[cur,count,goTo]);
+
+  /* touch / swipe handlers */
+  const onCardTouchStart = e=>{ touchStartX.current=e.touches[0].clientX; };
+  const onCardTouchEnd   = e=>{
+    if(touchStartX.current===null)return;
+    const dx=e.changedTouches[0].clientX-touchStartX.current;
+    if(Math.abs(dx)>40){ dx<0?goTo((cur+1)%count):goTo((cur-1+count)%count); }
+    touchStartX.current=null;
+  };
 
   /* keyboard nav when hovered */
   useEffect(()=>{
@@ -232,6 +252,8 @@ function EventCard({ev, cardIndex, onVideoOpen}){
     <div
       onMouseEnter={()=>setHov(true)}
       onMouseLeave={()=>setHov(false)}
+      onTouchStart={onCardTouchStart}
+      onTouchEnd={onCardTouchEnd}
       onClick={()=>{ if(isVideo && hasRealSrc) onVideoOpen(item.src, ev.event); }}
       style={{position:"relative",overflow:"hidden",background:bg,cursor:isVideo&&hasRealSrc?"pointer":"default",...spanStyle}}
     >
@@ -287,10 +309,10 @@ function EventCard({ev, cardIndex, onVideoOpen}){
       {/* nav arrows */}
       {count > 1 && (
         <>
-          <button onClick={prev} style={{position:"absolute",left:10,top:"45%",transform:"translateY(-50%)",zIndex:10,width:36,height:36,background:"rgba(8,8,8,.65)",border:"1px solid rgba(255,255,255,.12)",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",opacity:hov?1:0,transition:"opacity .3s,background .2s,border-color .2s"}} onMouseEnter={e=>e.currentTarget.style.borderColor="rgba(255,255,255,.4)"} onMouseLeave={e=>e.currentTarget.style.borderColor="rgba(255,255,255,.12)"}>
+          <button className="ev-nav-arrow" onClick={prev} style={{position:"absolute",left:10,top:"45%",transform:"translateY(-50%)",zIndex:10,width:36,height:36,background:"rgba(8,8,8,.65)",border:"1px solid rgba(255,255,255,.12)",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",opacity:hov?1:0,transition:"opacity .3s,background .2s,border-color .2s"}} onMouseEnter={e=>e.currentTarget.style.borderColor="rgba(255,255,255,.4)"} onMouseLeave={e=>e.currentTarget.style.borderColor="rgba(255,255,255,.12)"}>
             <div style={{width:7,height:7,borderRight:"1px solid #fff",borderTop:"1px solid #fff",transform:"rotate(-135deg)",marginLeft:2}}/>
           </button>
-          <button onClick={next} style={{position:"absolute",right:10,top:"45%",transform:"translateY(-50%)",zIndex:10,width:36,height:36,background:"rgba(8,8,8,.65)",border:"1px solid rgba(255,255,255,.12)",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",opacity:hov?1:0,transition:"opacity .3s,background .2s,border-color .2s"}} onMouseEnter={e=>e.currentTarget.style.borderColor="rgba(255,255,255,.4)"} onMouseLeave={e=>e.currentTarget.style.borderColor="rgba(255,255,255,.12)"}>
+          <button className="ev-nav-arrow" onClick={next} style={{position:"absolute",right:10,top:"45%",transform:"translateY(-50%)",zIndex:10,width:36,height:36,background:"rgba(8,8,8,.65)",border:"1px solid rgba(255,255,255,.12)",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",opacity:hov?1:0,transition:"opacity .3s,background .2s,border-color .2s"}} onMouseEnter={e=>e.currentTarget.style.borderColor="rgba(255,255,255,.4)"} onMouseLeave={e=>e.currentTarget.style.borderColor="rgba(255,255,255,.12)"}>
             <div style={{width:7,height:7,borderRight:"1px solid #fff",borderTop:"1px solid #fff",transform:"rotate(45deg)",marginRight:2}}/>
           </button>
         </>
@@ -329,6 +351,28 @@ export default function Inksomna(){
 
   const [slide,    setSlide]   = useState(0);
   const [heroFade, setHeroFade]= useState(true);
+  const heroTouchX = useRef(null);
+  const heroMouseX = useRef(null);
+
+  const heroNext = ()=>{setHeroFade(false);setTimeout(()=>{setSlide(s=>(s+1)%HERO_SLIDES.length);setHeroFade(true);},320);};
+  const heroPrev = ()=>{setHeroFade(false);setTimeout(()=>{setSlide(s=>(s-1+HERO_SLIDES.length)%HERO_SLIDES.length);setHeroFade(true);},320);};
+
+  /* touch handlers */
+  const onTouchStart = e=>{ heroTouchX.current=e.touches[0].clientX; };
+  const onTouchEnd   = e=>{
+    if(heroTouchX.current===null)return;
+    const dx=e.changedTouches[0].clientX-heroTouchX.current;
+    if(Math.abs(dx)>40){ dx<0?heroNext():heroPrev(); }
+    heroTouchX.current=null;
+  };
+  /* mouse drag handlers */
+  const onMouseDown = e=>{ heroMouseX.current=e.clientX; };
+  const onMouseUp   = e=>{
+    if(heroMouseX.current===null)return;
+    const dx=e.clientX-heroMouseX.current;
+    if(Math.abs(dx)>40){ dx<0?heroNext():heroPrev(); }
+    heroMouseX.current=null;
+  };
   const [faqOpen,  setFaqOpen] = useState(null);
   const [testIdx,  setTestIdx] = useState(0);
   const [scrolled, setScrolled]= useState(false);
@@ -345,7 +389,7 @@ export default function Inksomna(){
   const c3 = useCounter(8,1200,statsVis);
 
   useEffect(()=>{
-    const id=setInterval(()=>{setHeroFade(false);setTimeout(()=>{setSlide(s=>(s+1)%4);setHeroFade(true);},380);},5000);
+    const id=setInterval(()=>{setHeroFade(false);setTimeout(()=>{setSlide(s=>(s+1)%HERO_SLIDES.length);setHeroFade(true);},380);},5000);
     return()=>clearInterval(id);
   },[]);
 
@@ -402,8 +446,8 @@ textarea.fi{resize:vertical;min-height:120px}
 .ig-btn:hover{border-color:#fff;transform:scale(1.08)}
 .ig-btn::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(255,255,255,.1);animation:igpulse 2.5s ease-in-out infinite}
 @keyframes igpulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.18);opacity:0}}
-.ig-ov{position:fixed;inset:0;z-index:400;background:#080808;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s}
-.ig-ov.open{opacity:1;pointer-events:all}
+.ig-ov{position:fixed;inset:0;z-index:400;background:#080808;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;visibility:hidden;transition:opacity .5s,visibility .5s}
+.ig-ov.open{opacity:1;pointer-events:all;visibility:visible}
 .ig-frame{position:absolute;inset:32px;border:1px solid #1a1a1a;pointer-events:none}
 .ig-handle{font-size:clamp(44px,9vw,96px);font-weight:300;font-style:italic;line-height:.9;letter-spacing:-.02em;margin-bottom:28px;opacity:0;transform:translateY(20px);transition:opacity .6s .2s,transform .6s .2s}
 .ig-ov.open .ig-handle{opacity:1;transform:translateY(0)}
@@ -451,6 +495,7 @@ textarea.fi{resize:vertical;min-height:120px}
   .ig-stats{display:none!important}
   .mosaic{grid-template-columns:1fr!important;grid-auto-rows:280px!important}
   .ev-head-inner{flex-direction:column!important;align-items:flex-start!important;gap:12px!important}
+  .ev-nav-arrow{display:none!important}
 }
 `;
     document.head.appendChild(st);
@@ -504,15 +549,10 @@ textarea.fi{resize:vertical;min-height:120px}
       </nav>
 
       {/* HERO */}
-      <section id="home" style={{position:"relative",height:"100vh",minHeight:560,overflow:"hidden",display:"flex",alignItems:"flex-end",background:BG3}}>
+      <section id="home" style={{position:"relative",height:"100vh",minHeight:560,overflow:"hidden",display:"flex",alignItems:"flex-end",background:BG3,cursor:"grab"}} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
         <div className="hero-art" style={{position:"absolute",right:0,top:0,width:"52%",height:"100%",opacity:heroFade?1:0,transition:"opacity .7s",pointerEvents:"none"}}>
           <img
-            src={[
-              "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775416603/20251122151713_IMG_2208_dvqzlb.jpg",
-              "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775419027/20251122082238_IMG_2024_afwylk.jpg",
-              "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775419480/20251129222031_IMG_2640_xpdehb.jpg",
-              "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775419873/20260215220045_IMG_3021_ed2yxb.jpg",
-            ][slide]}
+            src={HERO_SLIDES[slide]}
             alt="Inksomna"
             style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center",opacity:.8}}
           />
@@ -532,28 +572,11 @@ textarea.fi{resize:vertical;min-height:120px}
           </div>
         </div>
         <div style={{position:"absolute",bottom:28,right:24,display:"flex",gap:8,zIndex:5}}>
-          {[0,1,2,4].map(i=>(<span key={i} onClick={()=>{setHeroFade(false);setTimeout(()=>{setSlide(i);setHeroFade(true);},320);}} style={{width:i===slide?18:5,height:5,borderRadius:3,background:i===slide?"#fff":"#2e2e2e",cursor:"pointer",transition:"width .35s,background .35s"}}/>))}
+          {HERO_SLIDES.map((_,i)=>(<span key={i} onClick={()=>{setHeroFade(false);setTimeout(()=>{setSlide(i);setHeroFade(true);},320);}} style={{width:i===slide?18:5,height:5,borderRadius:3,background:i===slide?"#fff":"#2e2e2e",cursor:"pointer",transition:"width .35s,background .35s"}}/>))}
         </div>
         <div style={{position:"absolute",bottom:0,left:0,right:0,height:60,background:`linear-gradient(to bottom,transparent,${BG3})`,pointerEvents:"none"}}/>
       </section>
 
-      {/* STYLE CARDS */}
-      <section style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",borderTop:`1px solid ${BD}`}} className="style-grid">
-        {styleCards.map((s,i)=>(
-          <div key={i} className="fc" style={{borderLeft:i>0?`1px solid ${BD}`:"none",padding:0}}>
-            <div style={{height:200,background:[S1,"#0c0c0c","#131313"][i],position:"relative",overflow:"hidden",display:"flex",alignItems:"center",justifyContent:"center"}}>
-              {arts[i]}
-              <div style={{position:"absolute",bottom:0,left:0,right:0,height:40,background:`linear-gradient(to bottom,transparent,${[S1,"#0c0c0c","#131313"][i]})`}}/>
-            </div>
-            <div style={{padding:"24px 24px 30px"}}>
-              <p style={{...mono,fontSize:9,letterSpacing:".28em",textTransform:"uppercase",color:"#666",marginBottom:8}}>{s.num}</p>
-              <h3 style={{fontSize:"clamp(20px,2.5vw,26px)",fontWeight:300,marginBottom:12}}>{s.title}</h3>
-              <p style={{...mono,fontSize:11,lineHeight:1.85,color:"#999",marginBottom:20}}>{s.body}</p>
-              <button className="btn-sm" onClick={()=>scrollTo("work")}>View Work</button>
-            </div>
-          </div>
-        ))}
-      </section>
 
       {/* PORTFOLIO */}
       <section id="work" style={{padding:"80px 24px",background:BG2,borderTop:`1px solid ${BD}`}} className="section-pad">
