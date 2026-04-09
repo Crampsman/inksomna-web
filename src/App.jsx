@@ -134,19 +134,60 @@ const arts = [
   </svg>,
 ];
 
+/* ── 6 featured tiles ───────────────────────────────────────────
+   cover:  Single best shot — shown in the grid
+   photos: Different angles of THIS piece only — shown in lightbox
+─────────────────────────────────────────────────────────────────*/
 const works = [
-  {id:1,title:"Dissolution",bg:"#161616"},
-  {id:2,title:"The Watcher",bg:"#111"},
-  {id:3,title:"Cartography of Sleep",bg:"#1a1a1a"},
-  {id:4,title:"Second Skin",bg:"#131313"},
-  {id:5,title:"The Threshold",bg:"#0f0f0f"},
-  {id:6,title:"Gravity Fails",bg:"#181818"},
+  {
+    id:1, title:"Who am I", bg:"#161616",
+    cover:"https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775736685/20251129221852_IMG_2627_kffela.jpg",
+    photos:[
+      "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775736685/20251129221852_IMG_2627_kffela.jpg"
+    ],
+  },
+  {id:2, title:"Damn good coffee!", bg:"#111",
+    cover:"https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775773395/IMG_2368_q5iz7u.jpg",
+    photos:["https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775773395/IMG_2368_q5iz7u.jpg"]},
+  {id:3, title:"Cartography of Sleep", bg:"#1a1a1a",
+    cover:"https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775736699/20260324230246_IMG_3329_loohkw.jpg",
+    photos:["https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775736696/20260324230232_IMG_3324_dyimb2.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775736690/20260324225947_IMG_3310_kdkhsl.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775736683/20260324225930_IMG_3308_z2zzxe.jpg"]},
+  {id:4, title:"Hope", bg:"#131313",
+    cover:"https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775767271/7_oqgkkp.jpg",
+    photos:["https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775767271/7_oqgkkp.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775767270/8_a3gkwh.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775767270/6_vtpigm.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775767270/4_jvbfly.jpg"]},
+  {id:5, title:"Big Brother is watching you", bg:"#0f0f0f",
+    cover:"https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775770921/IMG_20250630_202500_698_xh86sr.jpg",
+    photos:["https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775770921/IMG_20250630_202500_698_xh86sr.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775770921/IMG_20250630_202500_719_fa1psi.jpg"]},
+  {id:6, title:"Gravity Fails", bg:"#181818",
+    cover:"https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775770453/IMG_2853_1_wjw0tu.jpg",
+    photos:["https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775770453/IMG_2853_1_wjw0tu.jpg"]},
 ];
 
-const styleCards = [
-  {num:"01",title:"The Dream",   body:"Impossible compositions — where anatomy bends, objects melt, and the logic of sleep becomes permanent. Each piece is a world that could only exist on skin."},
-  {num:"02",title:"The Body",    body:"Skin as a canvas for the subconscious. The placement, the flow, the way the piece moves with the body — all considered as one unified vision."},
-  {num:"03",title:"The Detail",  body:"Surrealism rendered with hyper-real precision. The impossible made convincing through obsessive attention to light, texture, and depth."},
+/* ── Full portfolio ──────────────────────────────────────────────
+   Completely independent from the 6 tiles above.
+   Add every photo URL you want shown in "View Full Portfolio".
+   Order them however you like — newest first, by style, etc.
+─────────────────────────────────────────────────────────────────*/
+const allWorks = [
+  // paste your Cloudinary URLs here, one per line
+  "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775745656/IMG_20250809_141212_785_vuzrwg.jpg",
+  "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775745656/IMG_20250809_141222_070_sfazk8.jpg",
+  "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775745794/IMG_20250809_141222_323_zc68eg.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775768792/17_ubfeea.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775767267/20251123193227_IMG_2430_wqod8g.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775745653/IMG_20250703_232524_476_k12zoa.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775745652/IMG_20250630_020833_553_fzfoaa.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775736691/IMG_20240720_110313_982_x93spk.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775736682/20260215220045_IMG_3021_nw4k23.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775745666/IMG_20250920_202823_362_npycab.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775767275/IMG_20250522_170931_924_qbjfez.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775745656/IMG_20250707_212001_055_lnijwk.jpg"
 ];
 
 const processList = [
@@ -181,6 +222,92 @@ function useVisible(ref){
 }
 
 /* ── Video lightbox ── */
+/* ── Gallery lightbox ────────────────────────────────────────── */
+function GalleryLightbox({work, onClose}){
+  const serif={fontFamily:"'Cormorant Garamond',serif"};
+  const mono ={fontFamily:"'DM Mono',monospace"};
+  const photos = work.photos.filter(p=>p);
+  const [idx, setIdx] = useState(0);
+  const touchX = useRef(null);
+  const total = photos.length;
+
+  const goNext = useCallback(()=>setIdx(i=>(i+1)%total),[total]);
+  const goPrev = useCallback(()=>setIdx(i=>(i-1+total)%total),[total]);
+
+  useEffect(()=>{
+    const fn=e=>{
+      if(e.key==="Escape")   onClose();
+      if(e.key==="ArrowRight") goNext();
+      if(e.key==="ArrowLeft")  goPrev();
+    };
+    window.addEventListener("keydown",fn);
+    return()=>window.removeEventListener("keydown",fn);
+  },[onClose,goNext,goPrev]);
+
+  const onTouchStart = e=>{ touchX.current=e.touches[0].clientX; };
+  const onTouchEnd   = e=>{
+    if(touchX.current===null)return;
+    const dx=e.changedTouches[0].clientX-touchX.current;
+    if(Math.abs(dx)>40){ dx<0?goNext():goPrev(); }
+    touchX.current=null;
+  };
+
+  if(total===0) return null;
+
+  return(
+    <div onClick={e=>{if(e.target===e.currentTarget)onClose();}}
+      style={{position:"fixed",inset:0,zIndex:600,background:"rgba(0,0,0,.96)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",animation:"fadeIn .3s ease"}}>
+
+      {/* close */}
+      <button onClick={onClose}
+        style={{position:"absolute",top:20,right:24,...mono,fontSize:9,letterSpacing:".22em",textTransform:"uppercase",color:"#555",background:"none",border:"none",cursor:"pointer",transition:"color .3s",zIndex:10}}
+        onMouseEnter={e=>e.target.style.color="#fff"}
+        onMouseLeave={e=>e.target.style.color="#555"}>Close ×</button>
+
+      {/* title + counter */}
+      <div style={{position:"absolute",top:20,left:24,zIndex:10}}>
+        <p style={{...serif,fontSize:18,fontWeight:300,color:"#fff",marginBottom:2}}>{work.title}</p>
+        <p style={{...mono,fontSize:8,letterSpacing:".2em",color:"#444"}}>{String(idx+1).padStart(2,"0")} / {String(total).padStart(2,"0")}</p>
+      </div>
+
+      {/* image */}
+      <div style={{position:"relative",width:"min(900px,92vw)",maxHeight:"80vh",display:"flex",alignItems:"center",justifyContent:"center"}}
+        onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+        <img src={photos[idx]} alt={work.title}
+          style={{maxWidth:"100%",maxHeight:"80vh",objectFit:"contain",display:"block",userSelect:"none",WebkitUserDrag:"none"}}/>
+      </div>
+
+      {/* arrows — hidden on mobile via CSS */}
+      {total>1&&(
+        <>
+          <button className="lb-arrow" onClick={goPrev}
+            style={{position:"absolute",left:16,top:"50%",transform:"translateY(-50%)",width:44,height:44,background:"rgba(8,8,8,.65)",border:"1px solid rgba(255,255,255,.15)",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",transition:"border-color .25s",zIndex:10}}
+            onMouseEnter={e=>e.currentTarget.style.borderColor="rgba(255,255,255,.5)"}
+            onMouseLeave={e=>e.currentTarget.style.borderColor="rgba(255,255,255,.15)"}>
+            <div style={{width:8,height:8,borderLeft:"1px solid #fff",borderBottom:"1px solid #fff",transform:"rotate(45deg)",marginLeft:3}}/>
+          </button>
+          <button className="lb-arrow" onClick={goNext}
+            style={{position:"absolute",right:16,top:"50%",transform:"translateY(-50%)",width:44,height:44,background:"rgba(8,8,8,.65)",border:"1px solid rgba(255,255,255,.15)",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",transition:"border-color .25s",zIndex:10}}
+            onMouseEnter={e=>e.currentTarget.style.borderColor="rgba(255,255,255,.5)"}
+            onMouseLeave={e=>e.currentTarget.style.borderColor="rgba(255,255,255,.15)"}>
+            <div style={{width:8,height:8,borderRight:"1px solid #fff",borderTop:"1px solid #fff",transform:"rotate(45deg)",marginRight:3}}/>
+          </button>
+        </>
+      )}
+
+      {/* dots */}
+      {total>1&&(
+        <div style={{display:"flex",gap:6,marginTop:20,zIndex:10}}>
+          {photos.map((_,i)=>(
+            <div key={i} onClick={()=>setIdx(i)}
+              style={{width:i===idx?18:5,height:5,borderRadius:3,background:i===idx?"rgba(255,255,255,.8)":"rgba(255,255,255,.2)",cursor:"pointer",transition:"all .3s"}}/>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function VideoLightbox({src,label,onClose}){
   const mono={fontFamily:"'DM Mono',monospace"};
   useEffect(()=>{const fn=e=>{if(e.key==="Escape")onClose();};window.addEventListener("keydown",fn);return()=>window.removeEventListener("keydown",fn);},[onClose]);
@@ -379,6 +506,7 @@ export default function Inksomna(){
   const [menuOpen, setMenuOpen]= useState(false);
   const [igOpen,   setIgOpen]  = useState(false);
   const [video,    setVideo]   = useState(null);
+  const [gallery,  setGallery] = useState(null);
   const [form,     setForm]    = useState({name:"",email:"",message:""});
   const [sent,     setSent]    = useState(false);
 
@@ -394,7 +522,7 @@ export default function Inksomna(){
   },[]);
 
   useEffect(()=>{
-    const fn=e=>{if(e.key==="Escape"){setIgOpen(false);setVideo(null);}};
+    const fn=e=>{if(e.key==="Escape"){setIgOpen(false);setVideo(null);setGallery(null);}};
     window.addEventListener("keydown",fn);
     return()=>window.removeEventListener("keydown",fn);
   },[]);
@@ -495,6 +623,7 @@ textarea.fi{resize:vertical;min-height:120px}
   .ig-stats{display:none!important}
   .mosaic{grid-template-columns:1fr!important;grid-auto-rows:280px!important}
   .ev-head-inner{flex-direction:column!important;align-items:flex-start!important;gap:12px!important}
+  .lb-arrow{display:none!important}
   .ev-nav-arrow{display:none!important}
 }
 `;
@@ -583,14 +712,18 @@ textarea.fi{resize:vertical;min-height:120px}
         <SH label="Selected Works" title="The Portfolio"/>
         <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:3}} className="port-grid">
           {works.map((w,i)=>(
-            <div key={w.id} className="gi" style={{background:w.bg,height:i%3===1?360:280,position:"relative",display:"flex",alignItems:"center",justifyContent:"center"}}>
-              <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center"}}>{arts[i%arts.length]}</div>
+            <div key={w.id} className="gi" onClick={()=>w.photos.some(p=>p) && setGallery(w)}
+              style={{background:w.bg,height:i%3===1?360:280,position:"relative",display:"flex",alignItems:"center",justifyContent:"center",cursor:w.photos.some(p=>p)?"pointer":"default"}}>
+              {w.cover
+                ? <img src={w.cover} alt={w.title} style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>
+                : <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center"}}>{arts[i%arts.length]}</div>
+              }
               <div className="ov"><p style={{...mono,fontSize:8,letterSpacing:".28em",textTransform:"uppercase",color:"#aaa"}}>Surrealism</p><p style={{fontSize:18,fontWeight:300}}>{w.title}</p></div>
               <div className="bar"/>
             </div>
           ))}
         </div>
-        <div style={{display:"flex",justifyContent:"center",marginTop:44}}><button className="btn">View Full Portfolio</button></div>
+        <div style={{display:"flex",justifyContent:"center",marginTop:44}}><button className="btn" onClick={()=>{if(allWorks.filter(p=>p).length)setGallery({photos:allWorks.filter(p=>p),title:"Full Portfolio",startIdx:0});}}>View Full Portfolio</button></div>
       </section>
 
       {/* EVENTS & FESTIVALS */}
@@ -810,6 +943,9 @@ textarea.fi{resize:vertical;min-height:120px}
 
       {/* VIDEO LIGHTBOX */}
       {video && <VideoLightbox src={video.src} label={video.label} onClose={()=>setVideo(null)}/>}
+
+      {/* GALLERY LIGHTBOX */}
+      {gallery && <GalleryLightbox work={gallery} onClose={()=>setGallery(null)}/>}
 
     </div>
   );
