@@ -9,14 +9,27 @@ const W   = "#ffffff";
 
 const IG_HANDLE = "@inksomna";
 const IG_URL    = "https://instagram.com/inksomna";
-const CITY      = "Wrocław";
+const CITY         = "Wrocław";
+const ARTIST_PHOTO = "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775419027/20251122082238_IMG_2024_afwylk.jpg"; // ← paste your Cloudinary URL here
+
+/* ── Cloudinary image optimizer ─────────────────────────────────
+   Automatically adds width + quality + format params to any URL.
+   w=1600  for hero slides (full screen)
+   w=1200  for gallery lightbox photos
+   w=800   for portfolio tile covers
+   w=600   for event card photos
+─────────────────────────────────────────────────────────────────*/
+const cl = (url, w=1200) => {
+  if(!url || !url.includes("cloudinary.com")) return url;
+  return url.replace("/upload/", `/upload/w_${w},q_auto,f_auto/`);
+};
 
 /* ── Hero slider images ─────────────────────────────────────────
    To swap or reorder photos just change the order of URLs here.
 ─────────────────────────────────────────────────────────────────*/
 const HERO_SLIDES = [
   "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775416603/20251122151713_IMG_2208_dvqzlb.jpg",
-  "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775419027/20251122082238_IMG_2024_afwylk.jpg",
+  "https://res.cloudinary.com/duv5eqvwu/image/upload/v1777124772/20260417200909_IMG_3453_muktag.jpg",
   "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775419480/20251129222031_IMG_2640_xpdehb.jpg",
   "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775419873/20260215220045_IMG_3021_ed2yxb.jpg",
 ];
@@ -147,13 +160,13 @@ const works = [
     ],
   },
   {id:2, title:"Damn good coffee!", bg:"#111",
-    cover:"https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775773395/IMG_2368_q5iz7u.jpg",
-    photos:["https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775773395/IMG_2368_q5iz7u.jpg"]},
-  {id:3, title:"Cartography of Sleep", bg:"#1a1a1a",
-    cover:"https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775736699/20260324230246_IMG_3329_loohkw.jpg",
-    photos:["https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775736696/20260324230232_IMG_3324_dyimb2.jpg",
-    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775736690/20260324225947_IMG_3310_kdkhsl.jpg",
-    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775736683/20260324225930_IMG_3308_z2zzxe.jpg"]},
+    cover:"https://res.cloudinary.com/duv5eqvwu/image/upload/v1775773395/IMG_2368_q5iz7u.jpg",
+    photos:["https://res.cloudinary.com/duv5eqvwu/image/upload/v1775773395/IMG_2368_q5iz7u.jpg"]},
+  {id:3, title:"Ban", bg:"#1a1a1a",
+    cover:"https://res.cloudinary.com/duv5eqvwu/image/upload/v1777124771/20260417201059_IMG_3469_sjpb5y.jpg",
+    photos:["https://res.cloudinary.com/duv5eqvwu/image/upload/v1777124784/20260417201030_IMG_3464_qs6okr.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/v1777124772/20260417200909_IMG_3453_muktag.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/v1777124771/20260417200903_IMG_3451_dv0lyi.jpg"]},
   {id:4, title:"Hope", bg:"#131313",
     cover:"https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775767271/7_oqgkkp.jpg",
     photos:["https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775767271/7_oqgkkp.jpg",
@@ -170,37 +183,57 @@ const works = [
 ];
 
 /* ── Full portfolio ──────────────────────────────────────────────
-   Completely independent from the 6 tiles above.
-   Add every photo URL you want shown in "View Full Portfolio".
-   Order them however you like — newest first, by style, etc.
+   Two types of entries:
+
+   Single photo — just a URL string:
+   "https://res.cloudinary.com/.../photo.jpg"
+
+   Group (same piece, different angles) — object with cover + photos:
+   {
+     cover:  "https://res.cloudinary.com/.../best_angle.jpg",
+     photos: [
+       "https://res.cloudinary.com/.../angle1.jpg",
+       "https://res.cloudinary.com/.../angle2.jpg",
+       "https://res.cloudinary.com/.../angle3.jpg",
+     ]
+   }
+   Grid shows the cover with a carousel icon.
+   Click → slider opens with all photos in that group.
 ─────────────────────────────────────────────────────────────────*/
 const allWorks = [
-  // paste your Cloudinary URLs here, one per line
-  "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775745656/IMG_20250809_141212_785_vuzrwg.jpg",
-  "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775745656/IMG_20250809_141222_070_sfazk8.jpg",
-  "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775745794/IMG_20250809_141222_323_zc68eg.jpg",
-    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775768792/17_ubfeea.jpg",
-    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775767267/20251123193227_IMG_2430_wqod8g.jpg",
-    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775745653/IMG_20250703_232524_476_k12zoa.jpg",
-    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775745652/IMG_20250630_020833_553_fzfoaa.jpg",
-    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775736691/IMG_20240720_110313_982_x93spk.jpg",
-    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775736682/20260215220045_IMG_3021_nw4k23.jpg",
-    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775745666/IMG_20250920_202823_362_npycab.jpg",
-    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775767275/IMG_20250522_170931_924_qbjfez.jpg",
-    "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775745656/IMG_20250707_212001_055_lnijwk.jpg"
+  // Single photos
+  "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775768792/17_ubfeea.jpg",
+  "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775767267/20251123193227_IMG_2430_wqod8g.jpg",
+  "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775745653/IMG_20250703_232524_476_k12zoa.jpg",
+  "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775745652/IMG_20250630_020833_553_fzfoaa.jpg",
+  "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775736691/IMG_20240720_110313_982_x93spk.jpg",
+  "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775736682/20260215220045_IMG_3021_nw4k23.jpg",
+  "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775745666/IMG_20250920_202823_362_npycab.jpg",
+  "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775767275/IMG_20250522_170931_924_qbjfez.jpg",
+  "https://res.cloudinary.com/duv5eqvwu/image/upload/q_auto/f_auto/v1775745656/IMG_20250707_212001_055_lnijwk.jpg",
+
+  // Group example — same piece, different angles
+  {
+    cover:  "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775745656/IMG_20250809_141212_785_vuzrwg.jpg",
+    photos: [
+      "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775745656/IMG_20250809_141212_785_vuzrwg.jpg",
+      "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775745656/IMG_20250809_141222_070_sfazk8.jpg",
+      "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775745794/IMG_20250809_141222_323_zc68eg.jpg",
+    ]
+  },
 ];
 
 const processList = [
   {n:"01",title:"Consultation", body:"We meet — in person or remotely — and talk about your vision, your body, your story. No forms, no templates. This conversation is the foundation of the piece."},
   {n:"02",title:"Design",       body:"A custom composition developed exclusively for you. Scale, placement, and balance considered together — because a tattoo is part of your body's architecture."},
-  {n:"03",title:"Execution",    body:"Unhurried, precise, focused entirely on your piece. One client at a time. What gets made here will never be tattooed on another person."},
+  {n:"03",title:"Execution",    body:"Unhurried, precise, focused entirely on your piece. What gets made here will never be tattooed on another person."},
 ];
 
 const faqs = [
-  {q:"What style do you work in?",          a:"Surrealism — dreamlike, impossible compositions rendered with hyper-realistic precision. No flash, no templates, no repeated designs."},
-  {q:"How long does a consultation take?",   a:"45–60 minutes. We go deep into your concept, reference imagery, placement, and scale. No obligation, no rush."},
+  {q:"What style do you work in?",          a:"Surrealism, realism - black and grey."},
+  {q:"How long does a consultation take?",   a:"30–60 minutes. We go deep into your concept, reference imagery, placement, and scale. No obligation, no rush."},
   {q:"Do you accept walk-ins?",             a:"No. Every session is booked in advance. Custom work requires time to design properly."},
-  {q:"How far ahead are you booking?",      a:"Currently 6–8 weeks out. Reach out early — popular time slots fill up first."},
+  {q:"How far ahead are you booking?",      a:"Currently 2–3 weeks out. Reach out early — popular time slots fill up first."},
   {q:"Do you travel for guest spots?",      a:"Yes, 6–8 times per year. Follow on Instagram to see upcoming dates."},
 ];
 
@@ -223,20 +256,120 @@ function useVisible(ref){
 
 /* ── Video lightbox ── */
 /* ── Gallery lightbox ────────────────────────────────────────── */
-function GalleryLightbox({work, onClose}){
-  const serif={fontFamily:"'Cormorant Garamond',serif"};
-  const mono ={fontFamily:"'DM Mono',monospace"};
-  const photos = work.photos.filter(p=>p);
-  const [idx, setIdx] = useState(0);
+/* ── Portfolio grid overlay ──────────────────────────────────────
+   Editorial masonry — alternating sizes, asymmetric rhythm.
+   Groups show a stack indicator — click opens slider.
+─────────────────────────────────────────────────────────────────*/
+function PortfolioGrid({items, onSelect, onClose, savedScroll, onScroll}){
+  const mono={fontFamily:"'DM Mono',monospace"};
+  const [hov, setHov] = useState(null);
+  const scrollRef = useRef(null);
+
+  useEffect(()=>{
+    const fn=e=>{ if(e.key==="Escape") onClose(); };
+    window.addEventListener("keydown",fn);
+    document.body.style.overflow="hidden";
+    return()=>{ window.removeEventListener("keydown",fn); document.body.style.overflow=""; };
+  },[onClose]);
+
+  /* Restore scroll position when returning from lightbox */
+  useEffect(()=>{
+    if(savedScroll && scrollRef.current){
+      scrollRef.current.scrollTop = savedScroll;
+    }
+  },[savedScroll]);
+
+  /* Chaotic pattern — c=cols, r=rows, empty=blank cell with no image */
+  const pattern=[
+    {c:2,r:2},  {c:1,r:1},  {c:1,r:2},
+    {c:1,r:1},  {c:1,r:1,empty:true}, {c:2,r:1},
+    {c:1,r:2},  {c:2,r:1},  {c:1,r:1},
+    {c:1,r:1,empty:true}, {c:1,r:1}, {c:2,r:2},
+    {c:1,r:1},  {c:2,r:1},  {c:1,r:2},
+    {c:1,r:1},  {c:1,r:1,empty:true}, {c:1,r:1},
+  ];
+
+  /* merge items with pattern — skipping empties for item index */
+  const cells = [];
+  let itemIdx = 0;
+  for(let pi=0; pi<Math.max(items.length*2, pattern.length); pi++){
+    const p = pattern[pi % pattern.length];
+    if(p.empty){
+      cells.push({...p, isEmpty:true});
+    } else {
+      if(itemIdx >= items.length) break;
+      cells.push({...p, item:items[itemIdx], itemIdx});
+      itemIdx++;
+    }
+  }
+
+  return(
+    <div style={{position:"fixed",inset:0,zIndex:500,background:"#080808",display:"flex",flexDirection:"column",animation:"fadeIn .3s ease"}}>
+      {/* header — styled like site nav */}
+      <div style={{position:"absolute",top:0,left:0,right:0,zIndex:10,display:"flex",justifyContent:"space-between",alignItems:"center",padding:"0 24px",height:64,background:"rgba(8,8,8,.95)",borderBottom:"1px solid #1a1a1a"}}>
+        <p style={{...mono,fontSize:9,letterSpacing:".28em",textTransform:"uppercase",color:"#444"}}>{items.length} Works</p>
+        <button onClick={onClose}
+          style={{...mono,fontSize:10,letterSpacing:".16em",textTransform:"uppercase",color:"#aaa",background:"none",border:"none",cursor:"pointer",position:"relative",paddingBottom:3,transition:"color .3s"}}
+          onMouseEnter={e=>e.target.style.color="#fff"}
+          onMouseLeave={e=>e.target.style.color="#aaa"}>Close ×</button>
+      </div>
+
+      {/* chaotic grid */}
+      <div style={{overflowY:"auto",flex:1,paddingTop:64}}>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gridAutoRows:"180px",gap:2,padding:2}}>
+          {cells.map((cell,i)=>{
+            if(cell.isEmpty) return(
+              <div key={i} style={{gridColumn:`span ${cell.c}`,gridRow:`span ${cell.r}`,background:"#050505"}}/>
+            );
+            const {item, itemIdx:idx} = cell;
+            const isGroup  = typeof item==="object";
+            const coverSrc = isGroup ? item.cover : item;
+            const isHov    = hov===idx;
+            return(
+              <div key={i}
+                onClick={()=>onSelect(idx)}
+                onMouseEnter={()=>setHov(idx)}
+                onMouseLeave={()=>setHov(null)}
+                style={{gridColumn:`span ${cell.c}`,gridRow:`span ${cell.r}`,position:"relative",overflow:"hidden",cursor:"pointer",background:"#0d0d0d"}}>
+                <img src={cl(coverSrc,800)} alt=""
+                  style={{width:"100%",height:"100%",objectFit:"cover",display:"block",
+                    transition:"transform .6s cubic-bezier(.25,.46,.45,.94),opacity .4s",
+                    transform:isHov?"scale(1.04)":"scale(1)",opacity:isHov?.72:1}}/>
+                <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,.35)",opacity:isHov?1:0,transition:"opacity .4s",pointerEvents:"none"}}/>
+                {/* dot · dash group indicator */}
+                {isGroup && item.photos.length>1 && (
+                  <div style={{position:"absolute",top:9,right:9,display:"flex",alignItems:"center",gap:3,pointerEvents:"none"}}>
+                    <div style={{width:4,height:4,borderRadius:"50%",background:"rgba(255,255,255,.8)"}}/>
+                    <div style={{width:8,height:1.5,background:"rgba(255,255,255,.8)"}}/>
+                  </div>
+                )}
+                {/* index on hover */}
+                <div style={{position:"absolute",bottom:8,left:10,...mono,fontSize:7,letterSpacing:".15em",color:"rgba(255,255,255,.28)",opacity:isHov?1:0,transition:"opacity .3s",pointerEvents:"none"}}>
+                  {String(idx+1).padStart(2,"0")}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Gallery lightbox ────────────────────────────────────────── */
+function GalleryLightbox({photos:rawPhotos, title, startIdx=0, onClose, onBack}){
+  const mono={fontFamily:"'DM Mono',monospace"};
+  const photos = (rawPhotos||[]).filter(p=>p);
+  const total  = photos.length;
+  const [idx, setIdx] = useState(startIdx);
   const touchX = useRef(null);
-  const total = photos.length;
 
   const goNext = useCallback(()=>setIdx(i=>(i+1)%total),[total]);
   const goPrev = useCallback(()=>setIdx(i=>(i-1+total)%total),[total]);
 
   useEffect(()=>{
     const fn=e=>{
-      if(e.key==="Escape")   onClose();
+      if(e.key==="Escape")     onClose();
       if(e.key==="ArrowRight") goNext();
       if(e.key==="ArrowLeft")  goPrev();
     };
@@ -255,29 +388,28 @@ function GalleryLightbox({work, onClose}){
   if(total===0) return null;
 
   return(
-    <div onClick={e=>{if(e.target===e.currentTarget)onClose();}}
+    <div
+      onClick={e=>{if(e.target===e.currentTarget){ onBack ? onBack() : onClose(); }}}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
       style={{position:"fixed",inset:0,zIndex:600,background:"rgba(0,0,0,.96)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",animation:"fadeIn .3s ease"}}>
 
-      {/* close */}
-      <button onClick={onClose}
-        style={{position:"absolute",top:20,right:24,...mono,fontSize:9,letterSpacing:".22em",textTransform:"uppercase",color:"#555",background:"none",border:"none",cursor:"pointer",transition:"color .3s",zIndex:10}}
-        onMouseEnter={e=>e.target.style.color="#fff"}
-        onMouseLeave={e=>e.target.style.color="#555"}>Close ×</button>
-
-      {/* title + counter */}
       <div style={{position:"absolute",top:20,left:24,zIndex:10}}>
-        <p style={{...serif,fontSize:18,fontWeight:300,color:"#fff",marginBottom:2}}>{work.title}</p>
         <p style={{...mono,fontSize:8,letterSpacing:".2em",color:"#444"}}>{String(idx+1).padStart(2,"0")} / {String(total).padStart(2,"0")}</p>
       </div>
 
-      {/* image */}
-      <div style={{position:"relative",width:"min(900px,92vw)",maxHeight:"80vh",display:"flex",alignItems:"center",justifyContent:"center"}}
-        onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-        <img src={photos[idx]} alt={work.title}
-          style={{maxWidth:"100%",maxHeight:"80vh",objectFit:"contain",display:"block",userSelect:"none",WebkitUserDrag:"none"}}/>
+      {onBack && (
+        <button onClick={onBack}
+          style={{position:"absolute",top:20,right:24,...mono,fontSize:9,letterSpacing:".18em",textTransform:"uppercase",color:"#555",background:"none",border:"none",cursor:"pointer",transition:"color .3s",zIndex:10}}
+          onMouseEnter={e=>e.target.style.color="#fff"}
+          onMouseLeave={e=>e.target.style.color="#555"}>← Back</button>
+      )}
+
+      <div style={{position:"relative",width:"min(900px,92vw)",maxHeight:"80vh",display:"flex",alignItems:"center",justifyContent:"center",overflow:"hidden"}}>
+        <img src={cl(photos[idx],1200)} alt=""
+          style={{width:"100%",maxWidth:"100%",maxHeight:"80vh",objectFit:"contain",display:"block",userSelect:"none",WebkitUserDrag:"none"}}/>
       </div>
 
-      {/* arrows — hidden on mobile via CSS */}
       {total>1&&(
         <>
           <button className="lb-arrow" onClick={goPrev}
@@ -295,14 +427,16 @@ function GalleryLightbox({work, onClose}){
         </>
       )}
 
-      {/* dots */}
-      {total>1&&(
-        <div style={{display:"flex",gap:6,marginTop:20,zIndex:10}}>
+      {total>1&&total<=30&&(
+        <div style={{display:"flex",gap:5,marginTop:18,flexWrap:"wrap",justifyContent:"center",maxWidth:"80vw",zIndex:10}}>
           {photos.map((_,i)=>(
             <div key={i} onClick={()=>setIdx(i)}
-              style={{width:i===idx?18:5,height:5,borderRadius:3,background:i===idx?"rgba(255,255,255,.8)":"rgba(255,255,255,.2)",cursor:"pointer",transition:"all .3s"}}/>
+              style={{width:i===idx?14:4,height:4,borderRadius:2,background:i===idx?"rgba(255,255,255,.8)":"rgba(255,255,255,.18)",cursor:"pointer",transition:"all .3s"}}/>
           ))}
         </div>
+      )}
+      {total>30&&(
+        <p style={{...mono,marginTop:16,fontSize:8,letterSpacing:".2em",color:"#444"}}>{idx+1} / {total}</p>
       )}
     </div>
   );
@@ -312,7 +446,7 @@ function VideoLightbox({src,label,onClose}){
   const mono={fontFamily:"'DM Mono',monospace"};
   useEffect(()=>{const fn=e=>{if(e.key==="Escape")onClose();};window.addEventListener("keydown",fn);return()=>window.removeEventListener("keydown",fn);},[onClose]);
   return(
-    <div onClick={e=>{if(e.target===e.currentTarget)onClose();}} style={{position:"fixed",inset:0,zIndex:600,background:"rgba(0,0,0,.95)",display:"flex",alignItems:"center",justifyContent:"center",animation:"fadeIn .35s ease"}}>
+    <div onClick={e=>{if(e.target===e.currentTarget){ onBack ? onBack() : onClose(); }}} style={{position:"fixed",inset:0,zIndex:600,background:"rgba(0,0,0,.95)",display:"flex",alignItems:"center",justifyContent:"center",animation:"fadeIn .35s ease"}}>
       <div style={{position:"relative",width:"min(900px,90vw)",aspectRatio:"16/9"}}>
         <button onClick={onClose} style={{position:"absolute",top:-38,right:0,...mono,fontSize:9,letterSpacing:".2em",textTransform:"uppercase",color:"#555",cursor:"pointer",background:"none",border:"none",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color="#fff"} onMouseLeave={e=>e.target.style.color="#555"}>Close ×</button>
         <iframe src={src+"?autoplay=1"} title={label} allowFullScreen style={{width:"100%",height:"100%",border:"none",display:"block"}}/>
@@ -395,7 +529,7 @@ function EventCard({ev, cardIndex, onVideoOpen}){
             </div>
           </div>
         ) : item.src ? (
-          <img src={item.src} alt={ev.event} style={{width:"100%",height:"100%",objectFit:"cover",display:"block",transition:"transform .7s cubic-bezier(.25,.46,.45,.94)",transform:hov?"scale(1.04)":"scale(1)"}}/>
+          <img src={cl(item.src, 600)} alt={ev.event} style={{width:"100%",height:"100%",objectFit:"cover",display:"block",transition:"transform .7s cubic-bezier(.25,.46,.45,.94)",transform:hov?"scale(1.04)":"scale(1)"}}/>
         ) : (
           /* placeholder */
           <div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
@@ -507,6 +641,8 @@ export default function Inksomna(){
   const [igOpen,   setIgOpen]  = useState(false);
   const [video,    setVideo]   = useState(null);
   const [gallery,  setGallery] = useState(null);
+  const [portGrid,  setPortGrid] = useState(false);
+  const [gridScroll, setGridScroll] = useState(0);
   const [form,     setForm]    = useState({name:"",email:"",message:""});
   const [sent,     setSent]    = useState(false);
 
@@ -522,7 +658,7 @@ export default function Inksomna(){
   },[]);
 
   useEffect(()=>{
-    const fn=e=>{if(e.key==="Escape"){setIgOpen(false);setVideo(null);setGallery(null);}};
+    const fn=e=>{if(e.key==="Escape"){setIgOpen(false);setVideo(null);setGallery(null);setPortGrid(false);}};
     window.addEventListener("keydown",fn);
     return()=>window.removeEventListener("keydown",fn);
   },[]);
@@ -550,14 +686,19 @@ body{overflow-x:hidden}
 .fi{background:transparent;border:none;border-bottom:1px solid #2e2e2e;color:#fff;font-family:'DM Mono',monospace;font-size:12px;padding:12px 0;width:100%;outline:none;transition:border-color .3s}
 .fi:focus{border-color:#fff}.fi::placeholder{color:#444}
 textarea.fi{resize:vertical;min-height:120px}
-.fl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#666;display:block;margin-bottom:4px;margin-top:22px}
+.fl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#999;display:block;margin-bottom:4px;margin-top:22px}
 .gi{position:relative;overflow:hidden;cursor:pointer}
 .gi .ov{position:absolute;inset:0;background:rgba(0,0,0,.72);opacity:0;transition:opacity .4s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px}
 .gi:hover .ov{opacity:1}
 .gi .bar{position:absolute;bottom:0;left:0;right:0;height:2px;background:#fff;transform:scaleX(0);transform-origin:left;transition:transform .45s}
 .gi:hover .bar{transform:scaleX(1)}
+.port-img{transition:transform .7s cubic-bezier(.25,.46,.45,.94)!important}
+.gi:hover .port-img,.port-creative div:hover .port-img{transform:scale(1.04)!important}
+.port-img{transition:transform .7s cubic-bezier(.25,.46,.45,.94)!important}
+.gi:hover .port-img{transform:scale(1.04)!important}
 .fc{border:1px solid #1e1e1e;transition:border-color .35s,background .35s}
 .fc:hover{border-color:#333;background:#111}
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 .fu{animation:fadeUp .9s ease forwards}
 .fu1{animation:fadeUp .9s .15s ease forwards;opacity:0}
@@ -598,6 +739,7 @@ textarea.fi{resize:vertical;min-height:120px}
   .style-grid .fc{border-left:1px solid #1e1e1e!important;border-top:1px solid #1e1e1e}
   .about-grid{grid-template-columns:1fr!important}
   .about-img{display:none!important}
+  .about-img-tablet{display:block!important}
   .booking-grid{grid-template-columns:1fr!important}
   .stats-grid{grid-template-columns:repeat(2,1fr)!important}
   .footer-grid{grid-template-columns:1fr 1fr!important}
@@ -614,11 +756,24 @@ textarea.fi{resize:vertical;min-height:120px}
   .stats-grid{grid-template-columns:repeat(2,1fr)!important}
   .port-grid{grid-template-columns:1fr 1fr!important}
   .port-grid .gi{height:160px!important}
+  .port-creative{grid-template-columns:repeat(6,1fr)!important;grid-auto-rows:60px!important}
+  .port-creative>div:nth-child(1){grid-column:1/5!important;grid-row:1/5!important}
+  .port-creative>div:nth-child(2){grid-column:5/7!important;grid-row:1/3!important}
+  .port-creative>div:nth-child(3){grid-column:5/7!important;grid-row:3/5!important}
+  .port-creative>div:nth-child(4){grid-column:1/4!important;grid-row:5/8!important}
+  .port-creative>div:nth-child(5){grid-column:4/7!important;grid-row:5/9!important}
+  .port-creative>div:nth-child(6){grid-column:1/4!important;grid-row:8/12!important}
+  .port-mobile{grid-template-columns:1fr 1fr!important;grid-auto-rows:160px!important}
   .form-grid{grid-template-columns:1fr!important}
   .footer-grid{grid-template-columns:1fr!important}
   .process-step{gap:14px!important}
   .process-num{font-size:32px!important;width:44px!important}
   .booking-info{display:none!important}
+  .about-section{position:relative!important;padding:0!important;min-height:100svh!important;display:flex!important;flex-direction:column!important;justify-content:flex-end!important}
+  .about-img-bg{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center top!important;z-index:0!important}
+  .about-img-placeholder{display:none!important}
+  .about-overlay{display:block!important}
+  .about-text{position:relative!important;z-index:2!important;padding:40px 20px 52px!important;background:none!important}
   .ig-btn{bottom:20px;right:20px;width:42px;height:42px}
   .ig-stats{display:none!important}
   .mosaic{grid-template-columns:1fr!important;grid-auto-rows:280px!important}
@@ -635,7 +790,7 @@ textarea.fi{resize:vertical;min-height:120px}
 
   const SH=({label,title})=>(
     <div style={{textAlign:"center",marginBottom:56}}>
-      <p style={{...mono,fontSize:9,letterSpacing:".32em",textTransform:"uppercase",color:"#666",marginBottom:14}}>{label}</p>
+      <p style={{...mono,fontSize:9,letterSpacing:".32em",textTransform:"uppercase",color:"#999",marginBottom:14}}>{label}</p>
       <h2 style={{...serif,fontSize:"clamp(32px,5vw,64px)",fontWeight:300,letterSpacing:"-.01em",lineHeight:1}}>{title}</h2>
       <div style={{width:32,height:1,background:"#1e1e1e",margin:"18px auto 0"}}/>
     </div>
@@ -659,7 +814,7 @@ textarea.fi{resize:vertical;min-height:120px}
           <img src="/logo.svg" alt="Inksomna" style={{height:36,width:"auto",filter:"brightness(0) invert(1)",opacity:.9}}/>
           <div style={{display:"flex",flexDirection:"column",lineHeight:1.1}}>
             <span style={{...serif,fontSize:15,fontWeight:300,letterSpacing:".3em",textTransform:"uppercase",color:W}}>Inksomna</span>
-            <span style={{...mono,fontSize:7,letterSpacing:".2em",textTransform:"uppercase",color:"#555",marginTop:2}}>Tattoo Art · {CITY}</span>
+            <span style={{...mono,fontSize:7,letterSpacing:".2em",textTransform:"uppercase",color:"#888",marginTop:2}}>Tattoo Art · {CITY}</span>
           </div>
         </div>
         <div className="nav-links" style={{display:"flex",gap:28,alignItems:"center"}}>
@@ -681,7 +836,7 @@ textarea.fi{resize:vertical;min-height:120px}
       <section id="home" style={{position:"relative",height:"100vh",minHeight:560,overflow:"hidden",display:"flex",alignItems:"flex-end",background:BG3,cursor:"grab"}} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
         <div className="hero-art" style={{position:"absolute",right:0,top:0,width:"52%",height:"100%",opacity:heroFade?1:0,transition:"opacity .7s",pointerEvents:"none"}}>
           <img
-            src={HERO_SLIDES[slide]}
+            src={cl(HERO_SLIDES[slide], 1600)}
             alt="Inksomna"
             style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center",opacity:.8}}
           />
@@ -689,15 +844,15 @@ textarea.fi{resize:vertical;min-height:120px}
           <div style={{position:"absolute",inset:0,background:"linear-gradient(to top,#080808 0%,transparent 30%)"}}/>
         </div>
         <div style={{position:"relative",zIndex:2,padding:"0 24px 56px",maxWidth:820}} className="hero-pad">
-          <p className="fu" style={{...mono,fontSize:9,letterSpacing:".3em",textTransform:"uppercase",color:"#666",marginBottom:20}}>Surrealism · Tattoo Art · {CITY}</p>
-          <h1 className="fu1" style={{...serif,fontSize:"clamp(52px,10vw,148px)",fontWeight:300,lineHeight:.88,letterSpacing:"-.025em",color:W}}>Ink<em>somna</em></h1>
+          <p className="fu" style={{...mono,fontSize:9,letterSpacing:".3em",textTransform:"uppercase",color:"#999",marginBottom:20}}>Surrealism · Tattoo Art · {CITY}</p>
+          {/*<h1 className="fu1" style={{...serif,fontSize:"clamp(52px,10vw,148px)",fontWeight:300,lineHeight:.88,letterSpacing:"-.025em",color:W}}>Ink<em>somna</em></h1>*/}
           <div className="fu2" style={{display:"flex",alignItems:"flex-start",gap:16,margin:"28px 0 40px"}}>
             <div style={{height:1,width:30,background:"#222",flexShrink:0,marginTop:9}}/>
             <p style={{...mono,fontSize:11,lineHeight:1.95,color:"#888",maxWidth:340}}>Where the dreamlike becomes permanent on skin. Custom surrealism — no templates, no repetition, no limits.</p>
           </div>
           <div className="fu3" style={{display:"flex",gap:14,alignItems:"center",flexWrap:"wrap"}}>
             <button className="btn" onClick={()=>scrollTo("booking")}>Book a Session</button>
-            <button className="nl" onClick={()=>scrollTo("work")} style={{color:"#666"}}>See the Work ↓</button>
+            <button className="nl" onClick={()=>scrollTo("work")} style={{color:"#aaa"}}>See the Work ↓</button>
           </div>
         </div>
         <div style={{position:"absolute",bottom:28,right:24,display:"flex",gap:8,zIndex:5}}>
@@ -708,30 +863,64 @@ textarea.fi{resize:vertical;min-height:120px}
 
 
       {/* PORTFOLIO */}
-      <section id="work" style={{padding:"80px 24px",background:BG2,borderTop:`1px solid ${BD}`}} className="section-pad">
-        <SH label="Selected Works" title="The Portfolio"/>
-        <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:3}} className="port-grid">
-          {works.map((w,i)=>(
-            <div key={w.id} className="gi" onClick={()=>w.photos.some(p=>p) && setGallery(w)}
-              style={{background:w.bg,height:i%3===1?360:280,position:"relative",display:"flex",alignItems:"center",justifyContent:"center",cursor:w.photos.some(p=>p)?"pointer":"default"}}>
-              {w.cover
-                ? <img src={w.cover} alt={w.title} style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>
-                : <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center"}}>{arts[i%arts.length]}</div>
-              }
-              <div className="ov"><p style={{...mono,fontSize:8,letterSpacing:".28em",textTransform:"uppercase",color:"#aaa"}}>Surrealism</p><p style={{fontSize:18,fontWeight:300}}>{w.title}</p></div>
-              <div className="bar"/>
-            </div>
-          ))}
+      <section id="work" style={{padding:"80px 0",background:BG2,borderTop:`1px solid ${BD}`}}>
+        <div style={{padding:"0 24px",marginBottom:48}}>
+          <SH label="Selected Works" title="The Portfolio"/>
         </div>
-        <div style={{display:"flex",justifyContent:"center",marginTop:44}}><button className="btn" onClick={()=>{if(allWorks.filter(p=>p).length)setGallery({photos:allWorks.filter(p=>p),title:"Full Portfolio",startIdx:0});}}>View Full Portfolio</button></div>
+        {/* Creative asymmetric layout — 12-col grid, each tile unique */}
+        <div style={{display:"grid",gridTemplateColumns:"repeat(12,1fr)",gridAutoRows:"80px",gap:3,padding:"0 3px"}} className="port-creative">
+          {works.map((w,i)=>{
+            const layouts=[
+              {col:"1 / 5",  row:"1 / 5"},
+              {col:"5 / 9",  row:"1 / 3"},
+              {col:"9 / 13", row:"1 / 4"},
+              {col:"5 / 9",  row:"3 / 6"},
+              {col:"1 / 5",  row:"5 / 8"},
+              {col:"9 / 13", row:"4 / 8"},
+            ];
+            const mobileLayouts=[
+              {col:"1 / 5",  row:"1 / 5"},
+              {col:"5 / 7",  row:"1 / 3"},
+              {col:"5 / 7",  row:"3 / 5"},
+              {col:"1 / 4",  row:"5 / 8"},
+              {col:"4 / 7",  row:"5 / 9"},
+              {col:"1 / 7",  row:"9 / 12"},
+            ];
+            const l = layouts[i]||layouts[0];
+            const hasPhotos = w.photos.some(p=>p);
+            return(
+              <div key={w.id}
+                onClick={()=>hasPhotos && setGallery({photos:w.photos,title:w.title,startIdx:0})}
+                style={{gridColumn:l.col,gridRow:l.row,position:"relative",overflow:"hidden",background:w.bg,cursor:hasPhotos?"pointer":"default"}} data-mob-col={mobileLayouts[i]?.col} data-mob-row={mobileLayouts[i]?.row}>
+                {w.cover
+                  ? <>
+                      <img src={cl(w.cover,800)} alt={w.title} style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",display:"block",transition:"transform .7s cubic-bezier(.25,.46,.45,.94)"}} className="port-img"/>
+                      <div style={{position:"absolute",inset:0,background:"linear-gradient(to top,rgba(8,8,8,.95) 0%,rgba(8,8,8,.5) 40%,rgba(8,8,8,.1) 70%,transparent 100%)",pointerEvents:"none",zIndex:1}}/>
+                      <div style={{position:"absolute",inset:0,background:"linear-gradient(to right,rgba(8,8,8,.6) 0%,transparent 55%)",pointerEvents:"none",zIndex:1}}/>
+                    </>
+                  : <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center"}}>{arts[i%arts.length]}</div>
+                }
+                <div className="ov">
+                  <p style={{...mono,fontSize:8,letterSpacing:".28em",textTransform:"uppercase",color:"#bbb"}}>Surrealism</p>
+                  <p style={{fontSize:"clamp(15px,2vw,22px)",fontWeight:300}}>{w.title}</p>
+                </div>
+                <div className="bar"/>
+              </div>
+            );
+          })}
+        </div>
+        <div style={{display:"flex",justifyContent:"center",marginTop:48,padding:"0 24px"}}>
+          <button className="btn" onClick={()=>allWorks.length && setPortGrid(true)}>View Full Portfolio</button>
+        </div>
       </section>
 
-      {/* EVENTS & FESTIVALS */}
+      {/* EVENTS & FESTIVALS — hidden, set to true to restore */}
+      {false && (
       <section id="events" style={{background:BG3,borderTop:`1px solid ${BD}`}}>
         <div style={{padding:"80px 32px 52px"}} className="section-pad">
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end"}} className="ev-head-inner">
             <div>
-              <p style={{...mono,fontSize:9,letterSpacing:".32em",textTransform:"uppercase",color:"#666",marginBottom:14}}>On the Road</p>
+              <p style={{...mono,fontSize:9,letterSpacing:".32em",textTransform:"uppercase",color:"#999",marginBottom:14}}>On the Road</p>
               <h2 style={{...serif,fontSize:"clamp(32px,5vw,64px)",fontWeight:300,letterSpacing:"-.01em",lineHeight:1}}>Events & Festivals</h2>
             </div>
             <p style={{...mono,fontSize:9,color:"#2a2a2a",maxWidth:200,textAlign:"right",lineHeight:1.9}}>Hover to browse · click videos to play · arrow keys to navigate.</p>
@@ -744,8 +933,39 @@ textarea.fi{resize:vertical;min-height:120px}
         </div>
         <div style={{borderTop:`1px solid ${BD}`}}/>
       </section>
+      )}
 
-      {/* STATS */}
+
+      {/* PROCESS VIDEO ─────────────────────────────────────────────
+          Replace YOUR_VIDEO_ID with your YouTube video ID.
+          For vertical video set aspect ratio to 9/16 on the video side.
+      ─────────────────────────────────────────────────────────────*/}
+      <section id="process" style={{background:BG3,borderTop:`1px solid ${BD}`}}>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",minHeight:"100vh"}} className="process-video-grid">
+
+          {/* Text */}
+          <div style={{padding:"80px 48px",display:"flex",flexDirection:"column",justifyContent:"center"}} className="process-video-text">
+            <p style={{...mono,fontSize:9,letterSpacing:".32em",textTransform:"uppercase",color:"#666",marginBottom:20}}>The Work</p>
+            <h2 style={{...serif,fontSize:"clamp(32px,4vw,56px)",fontWeight:300,lineHeight:1.1,marginBottom:28}}>How it<br/><em>gets done.</em></h2>
+            <div style={{width:24,height:1,background:"#222",marginBottom:28}}/>
+            <p style={{...mono,fontSize:11,lineHeight:2,color:"#888",maxWidth:340,marginBottom:14}}>One session. The sketch, the lines, the shading. Unedited.</p>
+          </div>
+
+          {/* Vertical video */}
+          <div style={{position:"relative",background:"#050505",overflow:"hidden",minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center"}} className="process-video-side">
+            <video
+              src="https://res.cloudinary.com/duv5eqvwu/video/upload/q_auto/v1777239921/MouthAndCandy_TikTok_giom7h.mp4"
+              autoPlay loop muted playsInline
+              style={{position:"relative",width:"auto",height:"100%",maxWidth:"100%",maxHeight:"100vh",objectFit:"contain",display:"block",zIndex:1}}
+            />
+            <div style={{position:"absolute",top:0,left:0,right:0,height:60,background:`linear-gradient(to bottom,${BG3},transparent)`,pointerEvents:"none",zIndex:1}}/>
+            <div style={{position:"absolute",bottom:0,left:0,right:0,height:60,background:`linear-gradient(to top,${BG3},transparent)`,pointerEvents:"none",zIndex:1}}/>
+          </div>
+        </div>
+      </section>
+
+{/* STATS
+
       <section ref={statsRef} style={{background:BG3,borderTop:`1px solid ${BD}`,display:"grid",gridTemplateColumns:"repeat(4,1fr)"}} className="stats-grid">
         {[[c1,"+","Years"],[c2,"+","Pieces"],[c3,"","Guest Spots"],["100","%","Custom"]].map(([n,s,l],i)=>(
           <div key={i} style={{padding:"44px 0",textAlign:"center",borderRight:i<3?`1px solid ${BD}`:"none"}}>
@@ -755,21 +975,40 @@ textarea.fi{resize:vertical;min-height:120px}
         ))}
       </section>
 
+*/}
+
       {/* ABOUT */}
-      <section id="about" style={{padding:"80px 24px",background:BG,borderTop:`1px solid ${BD}`,display:"grid",gridTemplateColumns:"1fr 1fr",gap:60,alignItems:"center"}} className="section-pad about-grid">
+      <section id="about" style={{padding:"80px 24px",background:BG,borderTop:`1px solid ${BD}`,display:"grid",gridTemplateColumns:"1fr 1fr",gap:60,alignItems:"center"}} className="section-pad about-grid about-section">
+
+        {/* Mobile/tablet bg — full bleed photo with overlay */}
+        {ARTIST_PHOTO && <img src={cl(ARTIST_PHOTO,800)} alt="Artist" className="about-img-bg" style={{display:"none"}}/>}
+        <div className="about-overlay" style={{display:"none",position:"absolute",inset:0,background:"linear-gradient(to top,rgba(8,8,8,.98) 0%,rgba(8,8,8,.7) 50%,rgba(8,8,8,.2) 100%)",zIndex:1}}/>
+
+        {/* Desktop photo column */}
         <div className="about-img" style={{position:"relative"}}>
-          <div style={{width:"100%",paddingBottom:"128%",background:S1,position:"relative",overflow:"hidden"}}>
-            <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",opacity:.3}}>{arts[0]}</div>
-            <p style={{...mono,position:"absolute",bottom:16,left:0,right:0,textAlign:"center",fontSize:8,letterSpacing:".2em",textTransform:"uppercase",color:"#333"}}>Artist Photo</p>
+          <div style={{width:"100%",paddingBottom:"100%",background:S1,position:"relative",overflow:"hidden"}}>
+            {ARTIST_PHOTO
+              ? <>
+                  <img src={cl(ARTIST_PHOTO,800)} alt="Artist" style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",objectPosition:"center top",display:"block"}}/>
+                  <div style={{position:"absolute",inset:0,boxShadow:"inset 0 0 80px 40px #0e0e0e",pointerEvents:"none",zIndex:1}}/>
+                  <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse at center, transparent 40%, rgba(14,14,14,.7) 75%, rgba(14,14,14,.97) 100%)",pointerEvents:"none",zIndex:1}}/>
+                </>
+              : <>
+                  <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",opacity:.3}}>{arts[0]}</div>
+                  <p style={{...mono,position:"absolute",bottom:16,left:0,right:0,textAlign:"center",fontSize:8,letterSpacing:".2em",textTransform:"uppercase",color:"#333"}}>Artist Photo</p>
+                </>
+            }
           </div>
-          <div style={{position:"absolute",top:-10,left:-10,right:10,bottom:10,border:`1px solid #1e1e1e`,zIndex:-1}}/>
+          <div style={{position:"absolute",top:-10,left:-10,right:10,bottom:10,border:"1px solid #1e1e1e",zIndex:-1}}/>
         </div>
-        <div>
-          <p style={{...mono,fontSize:9,letterSpacing:".3em",textTransform:"uppercase",color:"#666",marginBottom:16}}>About the Artist</p>
+
+        {/* Text column */}
+        <div className="about-text" style={{minWidth:0}}>
+          <p style={{...mono,fontSize:9,letterSpacing:".3em",textTransform:"uppercase",color:"#999",marginBottom:16}}>About the Artist</p>
           <h2 style={{fontSize:"clamp(28px,4vw,52px)",fontWeight:300,lineHeight:1.08,marginBottom:8}}>Where the real becomes<br/><em>impossible.</em></h2>
           <div style={{width:26,height:1,background:"#222",margin:"20px 0"}}/>
           <p style={{...mono,fontSize:11,lineHeight:2,color:"#999",marginBottom:16}}>Based in {CITY} with over a decade of experience in surrealist tattoo art. Every piece begins with a conversation about what you want to feel when you look at your skin.</p>
-          <p style={{...mono,fontSize:11,lineHeight:2,color:"#777",marginBottom:40}}>One consultation. One design. One tattoo made precisely for your body — never reproduced, never templated. The impossible, made permanent.</p>
+          <p style={{...mono,fontSize:11,lineHeight:2,color:"#aaa",marginBottom:40}}>One consultation. One design. One tattoo made precisely for your body — never reproduced, never templated. The impossible, made permanent.</p>
           <button className="btn" onClick={()=>scrollTo("booking")}>Start a Conversation</button>
         </div>
       </section>
@@ -778,7 +1017,7 @@ textarea.fi{resize:vertical;min-height:120px}
       <div style={{borderTop:`1px solid ${BD}`,borderBottom:`1px solid ${BD}`,padding:"14px 0",overflow:"hidden",background:BG3}}>
         <div className="mq">
           {Array(4).fill(["SURREALISM","THE DREAM","THE BODY","THE DETAIL","CUSTOM ONLY",CITY.toUpperCase(),"INKSOMNA","ONE OF A KIND"]).flat().map((t,i)=>(
-            <span key={i} style={{...mono,fontSize:10,letterSpacing:".28em",textTransform:"uppercase",color:i%2===0?"#2e2e2e":"#444",marginRight:44}}>{t}</span>
+            <span key={i} style={{...mono,fontSize:10,letterSpacing:".28em",textTransform:"uppercase",color:i%2===0?"#555":"#777",marginRight:44}}>{t}</span>
           ))}
         </div>
       </div>
@@ -789,7 +1028,7 @@ textarea.fi{resize:vertical;min-height:120px}
         <div style={{maxWidth:760,margin:"0 auto"}}>
           {processList.map((p,i)=>(
             <div key={i} style={{borderTop:`1px solid ${BD}`,padding:"28px 0",display:"flex",gap:24,alignItems:"flex-start"}} className="process-step">
-              <span style={{...serif,fontSize:48,fontWeight:300,color:"#1e1e1e",lineHeight:1,flexShrink:0,width:72}} className="process-num">{p.n}</span>
+              <span style={{...serif,fontSize:48,fontWeight:300,color:"#444",lineHeight:1,flexShrink:0,width:72}} className="process-num">{p.n}</span>
               <div>
                 <h4 style={{fontSize:"clamp(18px,2.5vw,22px)",fontWeight:300,marginBottom:10}}>{p.title}</h4>
                 <p style={{...mono,fontSize:11,lineHeight:1.9,color:"#999"}}>{p.body}</p>
@@ -801,16 +1040,16 @@ textarea.fi{resize:vertical;min-height:120px}
       </section>
 
       {/* TESTIMONIALS */}
-      <section style={{padding:"72px 24px",background:BG3,borderTop:`1px solid ${BD}`,textAlign:"center"}} className="section-pad">
-        <p style={{...mono,fontSize:9,letterSpacing:".3em",textTransform:"uppercase",color:"#666",marginBottom:14}}>Client Words</p>
+      {/*<section style={{padding:"72px 24px",background:BG3,borderTop:`1px solid ${BD}`,textAlign:"center"}} className="section-pad">
+        <p style={{...mono,fontSize:9,letterSpacing:".3em",textTransform:"uppercase",color:"#999",marginBottom:14}}>Client Words</p>
         <div style={{maxWidth:640,margin:"0 auto",minHeight:130,display:"flex",flexDirection:"column",justifyContent:"center"}}>
           <p style={{...serif,fontSize:"clamp(18px,3vw,34px)",fontWeight:300,fontStyle:"italic",lineHeight:1.5,color:W,marginBottom:22}}>"{testimonials[testIdx].quote}"</p>
-          <p style={{...mono,fontSize:9,letterSpacing:".18em",textTransform:"uppercase",color:"#666"}}>— {testimonials[testIdx].name}, {testimonials[testIdx].city}</p>
+          <p style={{...mono,fontSize:9,letterSpacing:".18em",textTransform:"uppercase",color:"#999"}}> — {testimonials[testIdx].name}, {testimonials[testIdx].city}</p>
         </div>
         <div style={{display:"flex",justifyContent:"center",gap:10,marginTop:30}}>
           {testimonials.map((_,i)=>(<span key={i} onClick={()=>setTestIdx(i)} style={{width:i===testIdx?18:5,height:5,borderRadius:3,background:i===testIdx?"#555":"#1e1e1e",cursor:"pointer",transition:"width .3s"}}/>))}
         </div>
-      </section>
+      </section>*/}
 
       {/* FAQ */}
       <section id="faq" style={{padding:"80px 24px",background:BG,borderTop:`1px solid ${BD}`}} className="section-pad">
@@ -823,7 +1062,7 @@ textarea.fi{resize:vertical;min-height:120px}
                 <span style={{...mono,fontSize:16,color:faqOpen===i?"#aaa":"#444",transition:"transform .3s,color .3s",transform:faqOpen===i?"rotate(45deg)":"rotate(0)",flexShrink:0}}>+</span>
               </button>
               <div style={{maxHeight:faqOpen===i?200:0,overflow:"hidden",transition:"max-height .4s ease"}}>
-                <p style={{...mono,fontSize:11,lineHeight:1.9,color:"#777",paddingBottom:20}}>{f.a}</p>
+                <p style={{...mono,fontSize:11,lineHeight:1.9,color:"#aaa",paddingBottom:20}}>{f.a}</p>
               </div>
             </div>
           ))}
@@ -836,21 +1075,14 @@ textarea.fi{resize:vertical;min-height:120px}
         <SH label="We are here for you" title="Book Anytime"/>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1.4fr",gap:72,maxWidth:980,margin:"0 auto"}} className="booking-grid">
           <div className="booking-info">
-            <p style={{...mono,fontSize:9,letterSpacing:".22em",textTransform:"uppercase",color:"#666",marginBottom:16}}>Opening Hours</p>
-            {[["Monday – Friday","10:00 – 20:00"],["Saturday","10:00 – 16:00"],["Sunday","Closed"]].map(([d,t])=>(
-              <div key={d} style={{padding:"11px 0",borderBottom:`1px solid ${BD}`,display:"flex",justifyContent:"space-between"}}>
-                <span style={{...mono,fontSize:11,color:"#777"}}>{d}</span>
-                <span style={{...mono,fontSize:11,color:t==="Closed"?"#444":"#ccc"}}>{t}</span>
-              </div>
-            ))}
             <div style={{marginTop:28}}>
-              <p style={{...mono,fontSize:9,letterSpacing:".22em",textTransform:"uppercase",color:"#666",marginBottom:12}}>Studio</p>
-              <p style={{...mono,fontSize:11,lineHeight:2,color:"#777"}}>{CITY}<br/>Poland</p>
+              <p style={{...mono,fontSize:9,letterSpacing:".22em",textTransform:"uppercase",color:"#999",marginBottom:12}}>Studio</p>
+              <p style={{...mono,fontSize:11,lineHeight:2,color:"#aaa"}}>Poland<br/>{CITY}<br/>Piłsudskiego</p>
             </div>
-            <div style={{marginTop:20}}><p style={{...mono,fontSize:11,lineHeight:2,color:"#777"}}>hello@inksomna.com</p></div>
+            <div style={{marginTop:20}}><p style={{...mono,fontSize:11,lineHeight:2,color:"#aaa"}}>tago.tattoo.ask@gmail.com</p></div>
             <div style={{marginTop:32,padding:"16px 20px",border:`1px solid ${BD}`}}>
-              <p style={{...mono,fontSize:9,letterSpacing:".22em",textTransform:"uppercase",color:"#666",marginBottom:6}}>Currently booking</p>
-              <p style={{...serif,fontSize:26,fontWeight:300,color:W}}>6–8 weeks out</p>
+              <p style={{...mono,fontSize:9,letterSpacing:".22em",textTransform:"uppercase",color:"#999",marginBottom:6}}>Currently booking</p>
+              <p style={{...serif,fontSize:26,fontWeight:300,color:W}}>2–3 weeks out</p>
             </div>
           </div>
           <div>
@@ -858,12 +1090,12 @@ textarea.fi{resize:vertical;min-height:120px}
               <div style={{paddingTop:40,textAlign:"center"}}>
                 <div style={{width:32,height:1,background:"#1e1e1e",margin:"0 auto 22px"}}/>
                 <h3 style={{fontSize:30,fontWeight:300,marginBottom:12}}>Thank you.</h3>
-                <p style={{...mono,fontSize:11,color:"#777",lineHeight:1.9}}>Your message has been received.<br/>I'll be in touch within 48 hours.</p>
+                <p style={{...mono,fontSize:11,color:"#aaa",lineHeight:1.9}}>Your message has been received.<br/>I'll be in touch within 48 hours.</p>
               </div>
             ):(
               <>
-                <p style={{...mono,fontSize:11,lineHeight:1.95,color:"#777",marginBottom:6}}>Tell me about your idea — what you want, where you want it, how it should feel. I'll get back to you within 48 hours.</p>
-                <p style={{...mono,fontSize:11,color:"#444",marginBottom:4}}>hello@inksomna.com</p>
+                <p style={{...mono,fontSize:11,lineHeight:1.95,color:"#aaa",marginBottom:6}}>Tell me about your idea — what you want, where you want it, how it should feel. I'll get back to you within 48 hours.</p>
+                <p style={{...mono,fontSize:11,color:"#888",marginBottom:4}}>tago.tattoo.ask@gmail.com</p>
                 <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"0 24px"}} className="form-grid">
                   <div><label className="fl">Name</label><input className="fi" type="text" placeholder="Your name" value={form.name} onChange={e=>setForm({...form,name:e.target.value})}/></div>
                   <div><label className="fl">Email</label><input className="fi" type="email" placeholder="your@email.com" value={form.email} onChange={e=>setForm({...form,email:e.target.value})}/></div>
@@ -886,26 +1118,25 @@ textarea.fi{resize:vertical;min-height:120px}
         <div style={{padding:"44px 24px",display:"grid",gridTemplateColumns:"2fr 1fr 1fr",gap:32}} className="footer-grid">
           <div>
             <p style={{...serif,fontSize:16,fontWeight:300,letterSpacing:".3em",textTransform:"uppercase",color:W,marginBottom:12}}>Inksomna</p>
-            <p style={{...mono,fontSize:11,lineHeight:1.9,color:"#444",maxWidth:260}}>Surrealist tattoo art in {CITY}. One artist. One client at a time.</p>
             <div style={{display:"flex",gap:12,marginTop:22}}>
               <button className="btn-sm" onClick={()=>setIgOpen(true)}>Instagram</button>
               <button className="btn-sm" onClick={()=>scrollTo("booking")}>Contact</button>
             </div>
           </div>
           <div>
-            <p style={{...mono,fontSize:9,letterSpacing:".2em",textTransform:"uppercase",color:"#333",marginBottom:16}}>Navigation</p>
+            <p style={{...mono,fontSize:9,letterSpacing:".2em",textTransform:"uppercase",color:"#777",marginBottom:16}}>Navigation</p>
             {["Work","Events","About","FAQ","Booking"].map(x=>(
-              <p key={x} style={{marginBottom:10}}><button className="nl" onClick={()=>scrollTo(x.toLowerCase())} style={{color:"#444"}}>{x}</button></p>
+              <p key={x} style={{marginBottom:10}}><button className="nl" onClick={()=>scrollTo(x.toLowerCase())} style={{color:"#888"}}>{x}</button></p>
             ))}
           </div>
           <div>
-            <p style={{...mono,fontSize:9,letterSpacing:".2em",textTransform:"uppercase",color:"#333",marginBottom:16}}>Studio</p>
-            <p style={{...mono,fontSize:11,lineHeight:2,color:"#444"}}>{CITY}<br/>Poland</p>
+            <p style={{...mono,fontSize:9,letterSpacing:".2em",textTransform:"uppercase",color:"#777",marginBottom:16}}>Studio</p>
+            <p style={{...mono,fontSize:11,lineHeight:2,color:"#888"}}>{CITY}<br/>Poland</p>
           </div>
         </div>
         <div style={{padding:"16px 24px",borderTop:"1px solid #141414",display:"flex",justifyContent:"space-between",flexWrap:"wrap",gap:8}}>
-          <p style={{...mono,fontSize:9,color:"#2a2a2a"}}>© 2026 Inksomna · {CITY}</p>
-          <p style={{...mono,fontSize:9,color:"#2a2a2a"}}>inksomna.com</p>
+          <p style={{...mono,fontSize:9,color:"#555"}}>© 2023 Inksomna · {CITY}</p>
+          <p style={{...mono,fontSize:9,color:"#555"}}>inksomna.com</p>
         </div>
       </footer>
 
@@ -941,11 +1172,32 @@ textarea.fi{resize:vertical;min-height:120px}
         </div>
       </div>
 
+      {/* PORTFOLIO GRID */}
+      {portGrid && (
+        <PortfolioGrid
+          items={allWorks}
+          onClose={()=>{setPortGrid(false);setGridScroll(0);}}
+          savedScroll={gridScroll}
+          onScroll={setGridScroll}
+          onSelect={i=>{
+            const item = allWorks[i];
+            const isGroup = typeof item==="object";
+            setPortGrid(false);
+            setGallery({
+              photos:   isGroup ? item.photos : [item],
+              title:    "",
+              startIdx: 0,
+              fromGrid: true,
+            });
+          }}
+        />
+      )}
+
       {/* VIDEO LIGHTBOX */}
       {video && <VideoLightbox src={video.src} label={video.label} onClose={()=>setVideo(null)}/>}
 
       {/* GALLERY LIGHTBOX */}
-      {gallery && <GalleryLightbox work={gallery} onClose={()=>setGallery(null)}/>}
+      {gallery && <GalleryLightbox photos={gallery.photos} title={gallery.title||""} startIdx={gallery.startIdx||0} onClose={()=>setGallery(null)} onBack={gallery.fromGrid ? ()=>{setGallery(null);setPortGrid(true);} : null}/>}
 
     </div>
   );
