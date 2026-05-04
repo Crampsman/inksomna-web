@@ -369,7 +369,7 @@ function useVisible(ref) {
    Desktop: chaotic portrait-priority tile grid
    Mobile:  vertical scroll feed, tap to open
 ─────────────────────────────────────────────────────────────────*/
-function PortfolioGrid({items, onSelect, onClose, savedScroll, onScroll}) {
+function PortfolioGrid({items, onSelect, onClose, savedScroll, onScroll, isHidden}) {
     const mono = {fontFamily: "'DM Mono',monospace"};
     const [hov, setHov] = useState(null);
     const scrollRef = useRef(null);
@@ -421,7 +421,9 @@ function PortfolioGrid({items, onSelect, onClose, savedScroll, onScroll}) {
             background: "#080808",
             display: "flex",
             flexDirection: "column",
-            animation: "fadeIn .3s ease"
+            animation: "fadeIn .3s ease",
+            visibility: isHidden ? "hidden" : "visible",
+            pointerEvents: isHidden ? "none" : "all"
         }}>
 
             {/* nav */}
@@ -1366,8 +1368,8 @@ textarea.fi{resize:vertical;min-height:120px}
 .c-mark::before,.c-mark::after{content:'';position:absolute;background:#2a2a2a}
 .c-mark::before{width:100%;height:1px}
 .c-mark::after{width:1px;height:100%}
-.proc-mobile{display:none!important}
-.proc-desktop{display:grid!important}
+.proc-mobile{display:none}
+.proc-desktop{display:grid}
 @media(max-width:900px){
   .hero-art{width:100%!important;opacity:.8!important}
   .style-grid{grid-template-columns:1fr!important}
@@ -1375,6 +1377,10 @@ textarea.fi{resize:vertical;min-height:120px}
   .about-grid{grid-template-columns:1fr!important}
   .about-img{display:none!important}
   .about-img-tablet{display:block!important}
+  .about-section{position:relative!important;padding:0!important;min-height:80vh!important;display:flex!important;flex-direction:column!important;justify-content:flex-end!important}
+  .about-img-bg{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center top!important;z-index:0!important}
+  .about-overlay{display:block!important}
+  .about-text{position:relative!important;z-index:2!important;padding:40px 32px 52px!important}
   .booking-grid{grid-template-columns:1fr!important}
   .stats-grid{grid-template-columns:repeat(2,1fr)!important}
   .footer-grid{grid-template-columns:1fr 1fr!important}
@@ -1411,6 +1417,7 @@ textarea.fi{resize:vertical;min-height:120px}
   .process-num{font-size:32px!important;width:44px!important}
   .proc-desktop{display:none!important}
   .proc-mobile{display:block!important}
+  .proc-mobile{min-height:100svh!important}
   .booking-info{display:none!important}
   .about-section{position:relative!important;padding:0!important;min-height:100svh!important;display:flex!important;flex-direction:column!important;justify-content:flex-end!important}
   .about-img-bg{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center top!important;z-index:0!important}
@@ -1621,10 +1628,10 @@ textarea.fi{resize:vertical;min-height:120px}
                         color: "#999",
                         marginBottom: 20
                     }}>Surrealism · Tattoo Art · {CITY}</p>
+                    <div style={{width:30,height:1,background:"#444",marginBottom:20}}/>
                     {/*<h1 className="fu1" style={{...serif,fontSize:"clamp(52px,10vw,148px)",fontWeight:300,lineHeight:.88,letterSpacing:"-.025em",color:W}}>Inksomna</h1>*/}
                     <div className="fu2"
                          style={{display: "flex", alignItems: "flex-start", gap: 16, margin: "28px 0 40px"}}>
-                        <div style={{height: 1, width: 30, background: "#222", flexShrink: 0, marginTop: 9}}/>
                         <p style={{...mono, fontSize: 11, lineHeight: 1.95, color: "#888", maxWidth: 340}}>Where the
                             dreamlike becomes permanent on skin. Custom surrealism — no templates, no repetition, no
                             limits.</p>
@@ -1839,7 +1846,7 @@ textarea.fi{resize:vertical;min-height:120px}
                             fontWeight: 300,
                             lineHeight: 1.1,
                             marginBottom: 28
-                        }}>How it<br/>gets done.</h2>
+                        }}>How it<br/>gets done</h2>
                         <div style={{width: 24, height: 1, background: "#222", marginBottom: 28}}/>
                         <p style={{...mono, fontSize: 11, lineHeight: 2, color: "#888", maxWidth: 340}}>One session. The
                             sketch, the lines, the shading. Unedited.</p>
@@ -1927,7 +1934,7 @@ textarea.fi{resize:vertical;min-height:120px}
                             fontWeight: 300,
                             lineHeight: 1.1,
                             marginBottom: 20
-                        }}>How it<br/>gets done.</h2>
+                        }}>How it<br/>gets done</h2>
                         <div style={{width: 24, height: 1, background: "#333", marginBottom: 20}}/>
                         <p style={{...mono, fontSize: 11, lineHeight: 1.9, color: "#aaa"}}>One session. The sketch, the
                             lines, the shading. Unedited.</p>
@@ -2056,7 +2063,7 @@ textarea.fi{resize:vertical;min-height:120px}
                         fontWeight: 300,
                         lineHeight: 1.08,
                         marginBottom: 8
-                    }}>The Artist.</h2>
+                    }}>The Artist</h2>
                     <div style={{width: 26, height: 1, background: "#222", margin: "20px 0"}}/>
                     <p style={{...mono, fontSize: 11, lineHeight: 2, color: "#999", marginBottom: 16}}>
                         Since 2022, I have specialized in black and grey surrealism. My work is inspired by filmmakers such as David Lynch
@@ -2409,8 +2416,9 @@ textarea.fi{resize:vertical;min-height:120px}
             </div>
 
             {/* PORTFOLIO GRID */}
-            {portGrid && (
+            {(portGrid || (gallery && gallery.fromGrid)) && (
                 <PortfolioGrid
+                    isHidden={!!(gallery && gallery.fromGrid)}
                     items={allWorks}
                     onClose={() => {
                         setPortGrid(false);
@@ -2421,7 +2429,6 @@ textarea.fi{resize:vertical;min-height:120px}
                     onSelect={i => {
                         const item = allWorks[i];
                         const isGroup = typeof item === "object";
-                        setPortGrid(false);
                         history.pushState(null, '', '');
                         document.body.dataset.overlay = 'gallery';
                         setGallery({
