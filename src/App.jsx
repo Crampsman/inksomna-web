@@ -1326,7 +1326,7 @@ body{overflow-x:hidden;max-width:100vw}
 .nl::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:#fff;transition:width .35s}
 .nl:hover{color:#fff}.nl:hover::after{width:100%}
 .btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:13px 36px;background:transparent;border:1px solid #fff;color:#fff;cursor:pointer;transition:background .25s,color .25s;white-space:nowrap;outline:none}
-.btn:focus{outline:none;background:transparent;color:#fff}
+.btn:focus{outline:none}.btn:focus:not(:focus-visible){background:transparent!important;color:#fff!important;border-color:#fff!important}
 .btn:hover{background:#fff;color:#0e0e0e}
 .btn-sm{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;padding:10px 22px;background:transparent;border:1px solid #333;color:#aaa;cursor:pointer;transition:all .3s}
 .btn-sm:hover{border-color:#fff;color:#fff}
@@ -1777,13 +1777,12 @@ textarea.fi{resize:vertical;min-height:120px}
                     })}
                 </div>
                 <div style={{display: "flex", justifyContent: "center", marginTop: 48, padding: "0 24px"}}>
-                    <button className="btn" onClick={() => {
+                    <button className="btn" ref={el=>el&&el.addEventListener('click',()=>el.blur())} onClick={() => {
                         if (allWorks.length) {
                             document.body.dataset.mainScroll=String(window.scrollY);
                             overlayStack.current.push('grid');
                             history.pushState(null, '', '');
                             setPortGrid(true);
-                            e.currentTarget.blur();
                         }
                     }}>View Full Portfolio
                     </button>
@@ -2275,6 +2274,7 @@ textarea.fi{resize:vertical;min-height:120px}
                                     color: "#888",
                                     marginBottom: 4
                                 }}>tago.tattoo.ask@gmail.com</p>
+                                <input type="hidden" name="form-name" value="contact"/>
                                 <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 24px"}}
                                      className="form-grid">
                                     <div><label className="fl">Name</label><input className="fi" type="text"
@@ -2300,7 +2300,16 @@ textarea.fi{resize:vertical;min-height:120px}
                                     </div>
                                     <div style={{gridColumn: "1/-1", paddingTop: 24}}>
                                         <button className="btn" onClick={() => {
-                                            if (form.name && form.email) setSent(true);
+                                            if (form.name && form.email) {
+                                            const data = new FormData();
+                                            data.append('form-name', 'contact');
+                                            data.append('name', form.name);
+                                            data.append('email', form.email);
+                                            data.append('message', form.message);
+                                            fetch('/', {method:'POST', body:data})
+                                                .then(()=>setSent(true))
+                                                .catch(()=>setSent(true));
+                                        }
                                         }}>Send Message
                                         </button>
                                     </div>
@@ -2310,6 +2319,11 @@ textarea.fi{resize:vertical;min-height:120px}
                     </div>
                 </div>
             </section>
+
+            {/* Hidden Netlify form for form detection */}
+            <form name="contact" data-netlify="true" style={{display:"none"}} netlify-honeypot="bot-field">
+                <input name="name"/><input name="email"/><textarea name="message"/>
+            </form>
 
             {/* FOOTER */}
             <footer style={{borderTop: `1px solid ${BD}`, background: BG3}}>
