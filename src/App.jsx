@@ -1251,6 +1251,7 @@ export default function Inksomna() {
     const [portGrid, setPortGrid] = useState(false);
     const [gridScroll, setGridScroll] = useState(0);
     const galleryFromGrid = useRef(false);
+    const overlayStack = useRef([]);
     const [form, setForm] = useState({name: "", email: "", message: ""});
     const [sent, setSent] = useState(false);
 
@@ -1283,23 +1284,19 @@ export default function Inksomna() {
 
         /* Handle phone back button */
         const onPop = () => {
-            const o = document.body.dataset.overlay;
-            if (o === "gallery") {
-                delete document.body.dataset.overlay;
+            const top = overlayStack.current.pop();
+            if (top === "gallery") {
                 setGallery(null);
                 if (galleryFromGrid.current) {
                     galleryFromGrid.current = false;
                     setPortGrid(true);
-                    history.pushState(null, "", "");
-                    document.body.dataset.overlay = "grid";
+                    /* grid entry already in history — no pushState needed */
                 }
-            } else if (o === "grid") {
-                delete document.body.dataset.overlay;
+            } else if (top === "grid") {
                 setPortGrid(false);
                 const s = parseInt(document.body.dataset.mainScroll||"0");
                 requestAnimationFrame(()=>window.scrollTo(0,s));
-            } else if (o === "ig") {
-                delete document.body.dataset.overlay;
+            } else if (top === "ig") {
                 setIgOpen(false);
             }
         };
@@ -1714,8 +1711,8 @@ textarea.fi{resize:vertical;min-height:120px}
                                  onClick={() => {
                                      if (hasPhotos) {
                                          galleryFromGrid.current = false;
+                                         overlayStack.current.push('gallery');
                                          history.pushState(null, '', '');
-                                         document.body.dataset.overlay = 'gallery';
                                          setGallery({photos: w.photos, title: w.title, startIdx: 0});
                                      }
                                  }}
@@ -1780,8 +1777,8 @@ textarea.fi{resize:vertical;min-height:120px}
                     <button className="btn" onClick={() => {
                         if (allWorks.length) {
                             document.body.dataset.mainScroll=String(window.scrollY);
+                            overlayStack.current.push('grid');
                             history.pushState(null, '', '');
-                            document.body.dataset.overlay = 'grid';
                             setPortGrid(true);
                         }
                     }}>View Full Portfolio
@@ -2372,8 +2369,8 @@ textarea.fi{resize:vertical;min-height:120px}
 
             {/* FLOATING INSTAGRAM BUTTON */}
             <div className="ig-btn" onClick={() => {
+                overlayStack.current.push('ig');
                 history.pushState(null, '', '');
-                document.body.dataset.overlay = 'ig';
                 setIgOpen(true);
             }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaa" strokeWidth="1.5"
@@ -2446,8 +2443,8 @@ textarea.fi{resize:vertical;min-height:120px}
                         const item = allWorks[i];
                         const isGroup = typeof item === "object";
                         galleryFromGrid.current = true;
+                        overlayStack.current.push('gallery');
                         history.pushState(null, '', '');
-                        document.body.dataset.overlay = 'gallery';
                         setGallery({
                             photos: isGroup ? item.photos : [item],
                             title: "",
