@@ -2301,12 +2301,17 @@ textarea.fi{resize:vertical;min-height:120px}
                                     <div style={{gridColumn: "1/-1", paddingTop: 24}}>
                                         <button className="btn" onClick={() => {
                                             if (form.name && form.email) {
-                                            const data = new FormData();
-                                            data.append('form-name', 'contact');
-                                            data.append('name', form.name);
-                                            data.append('email', form.email);
-                                            data.append('message', form.message);
-                                            fetch('/', {method:'POST', body:data})
+                                            const body = new URLSearchParams({
+                                                'form-name': 'contact',
+                                                name: form.name,
+                                                email: form.email,
+                                                message: form.message,
+                                            }).toString();
+                                            fetch('/', {
+                                                method: 'POST',
+                                                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                                                body,
+                                            })
                                                 .then(()=>setSent(true))
                                                 .catch(()=>setSent(true));
                                         }
