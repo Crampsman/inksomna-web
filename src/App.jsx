@@ -421,9 +421,8 @@ function PortfolioGrid({items, onSelect, onClose, savedScroll, onScroll, isHidde
             background: "#080808",
             display: "flex",
             flexDirection: "column",
-            animation: "none",
+            animation: "fadeIn .3s ease",
             visibility: isHidden ? "hidden" : "visible",
-            transition: isHidden ? "visibility 0s 0.05s" : "visibility 0s",
             pointerEvents: isHidden ? "none" : "all"
         }}>
 
@@ -1311,8 +1310,8 @@ export default function Inksomna() {
         const st = document.createElement("style");
         st.textContent = `
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{overflow-x:hidden}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
+body{overflow-x:hidden;max-width:100vw}
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:#0e0e0e}::-webkit-scrollbar-thumb{background:#444}
 .nl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#aaa;cursor:pointer;position:relative;padding-bottom:3px;transition:color .3s;background:none;border:none}
 .nl::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:#fff;transition:width .35s}
@@ -1346,8 +1345,8 @@ textarea.fi{resize:vertical;min-height:120px}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .mq{animation:marquee 28s linear infinite;white-space:nowrap;display:inline-block}
 @keyframes ring{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.35);opacity:0}}
-.mob-menu{position:fixed;inset:0;background:#080808;z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;transform:translateX(100%);transition:transform .4s cubic-bezier(.25,.46,.45,.94)}
-.mob-menu.open{transform:translateX(0)}
+.mob-menu{position:fixed;inset:0;background:#080808;z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;transform:translateX(100%);transition:transform .4s cubic-bezier(.25,.46,.45,.94);visibility:hidden}
+.mob-menu.open{transform:translateX(0);visibility:visible}
 .mosaic{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:380px;gap:3px}
 .ig-btn{position:fixed;bottom:28px;right:28px;z-index:150;width:48px;height:48px;border-radius:50%;background:#0e0e0e;border:1px solid #333;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .3s,transform .3s}
 .ig-btn:hover{border-color:#fff;transform:scale(1.08)}
@@ -1355,8 +1354,7 @@ textarea.fi{resize:vertical;min-height:120px}
 @keyframes igpulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.18);opacity:0}}
 .ig-ov{position:fixed;inset:0;z-index:400;background:#080808;display:none;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s}
 .ig-ov.ready{display:flex;visibility:hidden}
-.ig-ov.open{display:flex;opacity:1;pointer-events:all;visibility:visible}
-
+.ig-ov.open{display:flex!important;opacity:1;pointer-events:all!important;visibility:visible!important}
 .ig-frame{position:absolute;inset:32px;border:1px solid #1a1a1a;pointer-events:none}
 .ig-handle{font-size:clamp(44px,9vw,96px);font-weight:300;font-style:italic;line-height:.9;letter-spacing:-.02em;margin-bottom:28px;opacity:0;transform:translateY(20px);transition:opacity .6s .2s,transform .6s .2s}
 .ig-ov.open .ig-handle{opacity:1;transform:translateY(0)}
@@ -1373,8 +1371,8 @@ textarea.fi{resize:vertical;min-height:120px}
 .c-mark::before,.c-mark::after{content:'';position:absolute;background:#2a2a2a}
 .c-mark::before{width:100%;height:1px}
 .c-mark::after{width:1px;height:100%}
-.proc-mobile{display:none}
-.proc-desktop{display:grid}
+.proc-mobile{display:none!important}
+.proc-desktop{display:grid!important}
 @media(max-width:900px){
   .hero-art{width:100%!important;opacity:.8!important}
   .style-grid{grid-template-columns:1fr!important}
@@ -1422,7 +1420,6 @@ textarea.fi{resize:vertical;min-height:120px}
   .process-num{font-size:32px!important;width:44px!important}
   .proc-desktop{display:none!important}
   .proc-mobile{display:block!important}
-  .proc-mobile{min-height:100svh!important}
   .booking-info{display:none!important}
   .about-section{position:relative!important;padding:0!important;min-height:100svh!important;display:flex!important;flex-direction:column!important;justify-content:flex-end!important}
   .about-img-bg{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center top!important;z-index:0!important}
@@ -1633,10 +1630,10 @@ textarea.fi{resize:vertical;min-height:120px}
                         color: "#999",
                         marginBottom: 20
                     }}>Surrealism · Tattoo Art · {CITY}</p>
-                    <div style={{width:30,height:1,background:"#444",marginBottom:20}}/>
                     {/*<h1 className="fu1" style={{...serif,fontSize:"clamp(52px,10vw,148px)",fontWeight:300,lineHeight:.88,letterSpacing:"-.025em",color:W}}>Inksomna</h1>*/}
                     <div className="fu2"
                          style={{display: "flex", alignItems: "flex-start", gap: 16, margin: "28px 0 40px"}}>
+                        <div style={{height: 1, width: 30, background: "#222", flexShrink: 0, marginTop: 9}}/>
                         <p style={{...mono, fontSize: 11, lineHeight: 1.95, color: "#888", maxWidth: 340}}>Where the
                             dreamlike becomes permanent on skin. Custom surrealism — no templates, no repetition, no
                             limits.</p>
@@ -1769,6 +1766,7 @@ textarea.fi{resize:vertical;min-height:120px}
                 <div style={{display: "flex", justifyContent: "center", marginTop: 48, padding: "0 24px"}}>
                     <button className="btn" onClick={() => {
                         if (allWorks.length) {
+                            document.body.dataset.mainScroll=String(window.scrollY);
                             history.pushState(null, '', '');
                             document.body.dataset.overlay = 'grid';
                             setPortGrid(true);
