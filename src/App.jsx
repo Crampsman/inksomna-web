@@ -29,7 +29,7 @@ const cl = (url, w = 1200) => {
 ─────────────────────────────────────────────────────────────────*/
 const HERO_SLIDES = [
     "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775416603/20251122151713_IMG_2208_dvqzlb.jpg",
-    "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775419027/20251122082238_IMG_2024_afwylk.jpg",
+    "https://res.cloudinary.com/duv5eqvwu/image/upload/v1777124772/20260417200909_IMG_3453_muktag.jpg",
     "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775419480/20251129222031_IMG_2640_xpdehb.jpg",
     "https://res.cloudinary.com/duv5eqvwu/image/upload/v1775419873/20260215220045_IMG_3021_ed2yxb.jpg",
 ];
