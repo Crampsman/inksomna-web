@@ -1,13 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inksomna tattoo</title>
+    <title>Inksomna · Tattoo Art · Wrocław</title>
+    <meta name="description" content="Black and grey surrealism tattoo art in Wrocław. Custom work, one client at a time." />
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Netlify form detection — invisible to users, required for form submissions to work -->
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input name="bot-field" />
+      <input name="name" />
+      <input name="email" />
+      <textarea name="message"></textarea>
+    </form>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
