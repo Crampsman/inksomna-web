@@ -421,8 +421,9 @@ function PortfolioGrid({items, onSelect, onClose, savedScroll, onScroll, isHidde
             background: "#080808",
             display: "flex",
             flexDirection: "column",
-            animation: "fadeIn .3s ease",
+            animation: "none",
             visibility: isHidden ? "hidden" : "visible",
+            transition: isHidden ? "visibility 0s 0.05s" : "visibility 0s",
             pointerEvents: isHidden ? "none" : "all"
         }}>
 
@@ -1243,6 +1244,7 @@ export default function Inksomna() {
     const [faqOpen, setFaqOpen] = useState(null);
     const [testIdx, setTestIdx] = useState(0);
     const [scrolled, setScrolled] = useState(false);
+    const [mounted,  setMounted]  = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
     const [igOpen, setIgOpen] = useState(false);
     const [video, setVideo] = useState(null);
@@ -1300,6 +1302,7 @@ export default function Inksomna() {
 
     useEffect(() => {
         const onS = () => setScrolled(window.scrollY > 30);
+        requestAnimationFrame(()=>setMounted(true));
         window.addEventListener("scroll", onS);
         const lk = document.createElement("link");
         lk.rel = "stylesheet";
@@ -1350,8 +1353,10 @@ textarea.fi{resize:vertical;min-height:120px}
 .ig-btn:hover{border-color:#fff;transform:scale(1.08)}
 .ig-btn::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(255,255,255,.1);animation:igpulse 2.5s ease-in-out infinite}
 @keyframes igpulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.18);opacity:0}}
-.ig-ov{position:fixed;inset:0;z-index:400;background:#080808;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;visibility:hidden;transition:opacity .5s,visibility .5s}
-.ig-ov.open{opacity:1;pointer-events:all;visibility:visible}
+.ig-ov{position:fixed;inset:0;z-index:400;background:#080808;display:none;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .5s}
+.ig-ov.ready{display:flex;visibility:hidden}
+.ig-ov.open{display:flex;opacity:1;pointer-events:all;visibility:visible}
+
 .ig-frame{position:absolute;inset:32px;border:1px solid #1a1a1a;pointer-events:none}
 .ig-handle{font-size:clamp(44px,9vw,96px);font-weight:300;font-style:italic;line-height:.9;letter-spacing:-.02em;margin-bottom:28px;opacity:0;transform:translateY(20px);transition:opacity .6s .2s,transform .6s .2s}
 .ig-ov.open .ig-handle{opacity:1;transform:translateY(0)}
@@ -2369,7 +2374,7 @@ textarea.fi{resize:vertical;min-height:120px}
             </div>
 
             {/* INSTAGRAM OVERLAY */}
-            <div className={`ig-ov${igOpen ? " open" : ""}`} onClick={e => {
+            <div className={`ig-ov${mounted?" ready":""}${igOpen?" open":""}`} onClick={e => {
                 if (e.target === e.currentTarget) setIgOpen(false);
             }}>
                 <div className="ig-frame"/>
