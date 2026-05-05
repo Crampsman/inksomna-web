@@ -1318,7 +1318,7 @@ export default function Inksomna() {
         document.head.appendChild(lk);
         const st = document.createElement("style");
         st.textContent = `
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden}
 body{overflow-x:hidden;max-width:100vw}
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:#0e0e0e}::-webkit-scrollbar-thumb{background:#444}
