@@ -422,7 +422,7 @@ function PortfolioGrid({items, onSelect, onClose, savedScroll, onScroll, isHidde
             display: "flex",
             flexDirection: "column",
             animation: "fadeIn .3s ease",
-            visibility: isHidden ? "hidden" : "visible",
+            zIndex: isHidden ? 499 : 500,
             pointerEvents: isHidden ? "none" : "all"
         }}>
 
@@ -610,7 +610,7 @@ function GalleryLightbox({photos: rawPhotos, title, startIdx = 0, onClose, onBac
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                animation: "fadeIn .3s ease"
+                animation: "none"
             }}>
 
             <div style={{position: "absolute", top: 20, left: 24, zIndex: 10}}>
@@ -1282,13 +1282,22 @@ export default function Inksomna() {
 
         /* Handle phone back button */
         const onPop = () => {
-            if (document.body.dataset.overlay) {
-                const o = document.body.dataset.overlay;
+            const o = document.body.dataset.overlay;
+            if (o === "gallery") {
                 delete document.body.dataset.overlay;
-                if (o === "gallery") setGallery(null);
-                else if (o === "grid") setPortGrid(false);
-                else if (o === "ig") setIgOpen(false);
-                history.pushState(null, "", ""); /* keep state clean */
+                setGallery(null);
+                /* Re-open grid and push entry so next back closes it */
+                setPortGrid(true);
+                history.pushState(null, "", "");
+                document.body.dataset.overlay = "grid";
+            } else if (o === "grid") {
+                delete document.body.dataset.overlay;
+                setPortGrid(false);
+                const s = parseInt(document.body.dataset.mainScroll||"0");
+                requestAnimationFrame(()=>window.scrollTo(0,s));
+            } else if (o === "ig") {
+                delete document.body.dataset.overlay;
+                setIgOpen(false);
             }
         };
         window.addEventListener("popstate", onPop);
