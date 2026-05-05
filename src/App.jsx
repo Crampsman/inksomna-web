@@ -1250,6 +1250,7 @@ export default function Inksomna() {
     const [gallery, setGallery] = useState(null);
     const [portGrid, setPortGrid] = useState(false);
     const [gridScroll, setGridScroll] = useState(0);
+    const galleryFromGrid = useRef(false);
     const [form, setForm] = useState({name: "", email: "", message: ""});
     const [sent, setSent] = useState(false);
 
@@ -1286,10 +1287,12 @@ export default function Inksomna() {
             if (o === "gallery") {
                 delete document.body.dataset.overlay;
                 setGallery(null);
-                /* Re-open grid and push entry so next back closes it */
-                setPortGrid(true);
-                history.pushState(null, "", "");
-                document.body.dataset.overlay = "grid";
+                if (galleryFromGrid.current) {
+                    galleryFromGrid.current = false;
+                    setPortGrid(true);
+                    history.pushState(null, "", "");
+                    document.body.dataset.overlay = "grid";
+                }
             } else if (o === "grid") {
                 delete document.body.dataset.overlay;
                 setPortGrid(false);
@@ -1710,6 +1713,7 @@ textarea.fi{resize:vertical;min-height:120px}
                             <div key={w.id}
                                  onClick={() => {
                                      if (hasPhotos) {
+                                         galleryFromGrid.current = false;
                                          history.pushState(null, '', '');
                                          document.body.dataset.overlay = 'gallery';
                                          setGallery({photos: w.photos, title: w.title, startIdx: 0});
@@ -2441,6 +2445,7 @@ textarea.fi{resize:vertical;min-height:120px}
                     onSelect={i => {
                         const item = allWorks[i];
                         const isGroup = typeof item === "object";
+                        galleryFromGrid.current = true;
                         history.pushState(null, '', '');
                         document.body.dataset.overlay = 'gallery';
                         setGallery({
