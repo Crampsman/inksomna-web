@@ -1325,7 +1325,8 @@ body{overflow-x:hidden;max-width:100vw}
 .nl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#aaa;cursor:pointer;position:relative;padding-bottom:3px;transition:color .3s;background:none;border:none}
 .nl::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:#fff;transition:width .35s}
 .nl:hover{color:#fff}.nl:hover::after{width:100%}
-.btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:13px 36px;background:transparent;border:1px solid #fff;color:#fff;cursor:pointer;transition:background .25s,color .25s;white-space:nowrap}
+.btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:13px 36px;background:transparent;border:1px solid #fff;color:#fff;cursor:pointer;transition:background .25s,color .25s;white-space:nowrap;outline:none}
+.btn:focus{outline:none;background:transparent;color:#fff}
 .btn:hover{background:#fff;color:#0e0e0e}
 .btn-sm{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;padding:10px 22px;background:transparent;border:1px solid #333;color:#aaa;cursor:pointer;transition:all .3s}
 .btn-sm:hover{border-color:#fff;color:#fff}
@@ -1500,6 +1501,8 @@ textarea.fi{resize:vertical;min-height:120px}
                 ))}
                 <button className="nl" onClick={() => {
                     setMenuOpen(false);
+                    overlayStack.current.push('ig');
+                    history.pushState(null, '', '');
                     setIgOpen(true);
                 }} style={{fontSize: 18, letterSpacing: ".2em"}}>Instagram
                 </button>
@@ -1549,7 +1552,7 @@ textarea.fi{resize:vertical;min-height:120px}
                     {["Work", "Events", "About", "FAQ", "Booking"].map(x => (
                         <button key={x} className="nl" onClick={() => scrollTo(x.toLowerCase())}>{x}</button>
                     ))}
-                    <button onClick={() => setIgOpen(true)} style={{
+                    <button onClick={() => { overlayStack.current.push('ig'); history.pushState(null,'',''); setIgOpen(true); }} style={{
                         background: "none",
                         border: "1px solid #2a2a2a",
                         borderRadius: "50%",
@@ -1780,6 +1783,7 @@ textarea.fi{resize:vertical;min-height:120px}
                             overlayStack.current.push('grid');
                             history.pushState(null, '', '');
                             setPortGrid(true);
+                            e.currentTarget.blur();
                         }
                     }}>View Full Portfolio
                     </button>
@@ -2322,7 +2326,7 @@ textarea.fi{resize:vertical;min-height:120px}
                             marginBottom: 12
                         }}>Inksomna</p>
                         <div style={{display: "flex", gap: 12, marginTop: 22}}>
-                            <button className="btn-sm" onClick={() => setIgOpen(true)}>Instagram</button>
+                            <button className="btn-sm" onClick={() => { overlayStack.current.push('ig'); history.pushState(null,'',''); setIgOpen(true); }}>Instagram</button>
                             <button className="btn-sm" onClick={() => scrollTo("booking")}>Contact</button>
                         </div>
                     </div>
