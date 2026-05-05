@@ -1326,11 +1326,12 @@ body{overflow-x:hidden;max-width:100vw}
 .nl::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:#fff;transition:width .35s}
 .nl:hover{color:#fff}.nl:hover::after{width:100%}
 .btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:13px 36px;background:transparent;border:1px solid #fff;color:#fff;cursor:pointer;transition:background .25s,color .25s;white-space:nowrap;outline:none}
-.btn:focus{outline:none}.btn:focus:not(:focus-visible){background:transparent!important;color:#fff!important;border-color:#fff!important}
+.btn:focus{outline:none;background:transparent;color:#fff;border-color:#fff}.btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .btn:hover{background:#fff;color:#0e0e0e}
 .btn-sm{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;padding:10px 22px;background:transparent;border:1px solid #333;color:#aaa;cursor:pointer;transition:all .3s}
 .btn-sm:hover{border-color:#fff;color:#fff}
 .fi{background:transparent;border:none;border-bottom:1px solid #2e2e2e;color:#fff;font-family:'DM Mono',monospace;font-size:12px;padding:12px 0;width:100%;outline:none;transition:border-color .3s}
+.fi:-webkit-autofill,.fi:-webkit-autofill:hover,.fi:-webkit-autofill:focus{-webkit-text-fill-color:#fff;-webkit-box-shadow:0 0 0 1000px #080808 inset;transition:background-color 5000s ease-in-out 0s}
 .fi:focus{border-color:#fff}.fi::placeholder{color:#444}
 textarea.fi{resize:vertical;min-height:120px}
 .fl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#999;display:block;margin-bottom:4px;margin-top:22px}
@@ -1521,9 +1522,10 @@ textarea.fi{resize:vertical;min-height:120px}
                 alignItems: "center",
                 justifyContent: "space-between",
                 background: scrolled ? "rgba(14,14,14,.97)" : "transparent",
-                borderBottom: scrolled ? `1px solid ${BD}` : "none",
+                borderBottom: `1px solid ${BD}`,
+                borderBottomColor: scrolled ? BD : "transparent",
                 backdropFilter: scrolled ? "blur(10px)" : "none",
-                transition: "background .4s,border .4s"
+                transition: "background .4s,border-bottom-color .4s,backdrop-filter .4s"
             }}>
                 <div style={{display: "flex", alignItems: "center", gap: 12, cursor: "pointer"}}
                      onClick={() => scrollTo("home")}>
@@ -1643,9 +1645,8 @@ textarea.fi{resize:vertical;min-height:120px}
                         marginBottom: 20
                     }}>Surrealism · Tattoo Art · {CITY}</p>
                     {/*<h1 className="fu1" style={{...serif,fontSize:"clamp(52px,10vw,148px)",fontWeight:300,lineHeight:.88,letterSpacing:"-.025em",color:W}}>Inksomna</h1>*/}
-                    <div className="fu2"
-                         style={{display: "flex", alignItems: "flex-start", gap: 16, margin: "28px 0 40px"}}>
-                        <div style={{height: 1, width: 30, background: "#222", flexShrink: 0, marginTop: 9}}/>
+                    <div style={{width:30,height:1,background:"#444",marginBottom:20}}/>
+                    <div className="fu2" style={{margin: "0 0 40px"}}>
                         <p style={{...mono, fontSize: 11, lineHeight: 1.95, color: "#888", maxWidth: 340}}>Where the
                             dreamlike becomes permanent on skin. Custom surrealism — no templates, no repetition, no
                             limits.</p>
@@ -2301,19 +2302,16 @@ textarea.fi{resize:vertical;min-height:120px}
                                     <div style={{gridColumn: "1/-1", paddingTop: 24}}>
                                         <button className="btn" onClick={() => {
                                             if (form.name && form.email) {
-                                            const body = new URLSearchParams({
-                                                'form-name': 'contact',
-                                                name: form.name,
-                                                email: form.email,
-                                                message: form.message,
-                                            }).toString();
                                             fetch('/', {
                                                 method: 'POST',
                                                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                                                body,
-                                            })
-                                                .then(()=>setSent(true))
-                                                .catch(()=>setSent(true));
+                                                body: new URLSearchParams({
+                                                    'form-name': 'contact',
+                                                    name: form.name,
+                                                    email: form.email,
+                                                    message: form.message,
+                                                }).toString()
+                                            }).then(()=>setSent(true)).catch(()=>setSent(true));
                                         }
                                         }}>Send Message
                                         </button>
