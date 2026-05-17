@@ -417,7 +417,6 @@ function PortfolioGrid({items, onSelect, onClose, savedScroll, onScroll, isHidde
         <div style={{
             position: "fixed",
             inset: 0,
-            zIndex: 500,
             background: "#080808",
             display: "flex",
             flexDirection: "column",
@@ -760,7 +759,7 @@ function GalleryLightbox({photos: rawPhotos, title, startIdx = 0, onClose, onBac
     );
 }
 
-function VideoLightbox({src, label, onClose}) {
+function VideoLightbox({src, label, onClose, onBack}) {
     const mono = {fontFamily: "'DM Mono',monospace"};
     useEffect(() => {
         const fn = e => {
@@ -1551,7 +1550,7 @@ textarea.fi{resize:vertical;min-height:120px}
                     </div>
                 </div>
                 <div className="nav-links" style={{display: "flex", gap: 28, alignItems: "center"}}>
-                    {["Work", "Events", "About", "FAQ", "Booking"].map(x => (
+                    {["Work", "About", "FAQ", "Booking"].map(x => (
                         <button key={x} className="nl" onClick={() => scrollTo(x.toLowerCase())}>{x}</button>
                     ))}
                     <button onClick={() => { overlayStack.current.push('ig'); history.pushState(null,'',''); setIgOpen(true); }} style={{
@@ -1601,7 +1600,7 @@ textarea.fi{resize:vertical;min-height:120px}
                 alignItems: "flex-end",
                 background: BG3,
                 cursor: "grab"
-            }} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} onMouseDown={onMouseDown} onMouseUp={onMouseUp}>
+            }} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} onMouseDown={onMouseDown} onMouseUp={onMouseUp} onMouseLeave={() => { heroMouseX.current = null; }}>
                 <div className="hero-art" style={{
                     position: "absolute",
                     right: 0,
@@ -1778,7 +1777,8 @@ textarea.fi{resize:vertical;min-height:120px}
                     })}
                 </div>
                 <div style={{display: "flex", justifyContent: "center", marginTop: 48, padding: "0 24px"}}>
-                    <button className="btn" ref={el=>el&&el.addEventListener('click',()=>el.blur())} onClick={() => {
+                    <button className="btn" onClick={e => {
+                        e.currentTarget.blur();
                         if (allWorks.length) {
                             document.body.dataset.mainScroll=String(window.scrollY);
                             overlayStack.current.push('grid');
@@ -1865,7 +1865,7 @@ textarea.fi{resize:vertical;min-height:120px}
                             marginBottom: 28
                         }}>How it<br/>gets done</h2>
                         <div style={{width: 24, height: 1, background: "#222", marginBottom: 28}}/>
-                        <p style={{...mono, fontSize: 11, lineHeight: 2, color: "#888", maxWidth: 340}}>One session. The
+                        <p style={{...mono, fontSize: 11, lineHeight: 2, color: "#888", maxWidth: 340}}>The
                             sketch, the lines, the shading. Unedited.</p>
                     </div>
                     <div style={{
@@ -1975,13 +1975,13 @@ textarea.fi{resize:vertical;min-height:120px}
 
             {/* ABOUT */}
             <section id="about" style={{
-                padding: "80px 24px",
+                padding: "0 0 0 24px",
                 background: BG,
                 borderTop: `1px solid ${BD}`,
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
                 gap: 60,
-                alignItems: "center"
+                alignItems: "stretch"
             }} className="section-pad about-grid about-section">
 
                 {/* Mobile/tablet bg — full bleed photo with overlay */}
@@ -1996,12 +1996,11 @@ textarea.fi{resize:vertical;min-height:120px}
                 }}/>
 
                 {/* Desktop photo column */}
-                <div className="about-img" style={{position: "relative"}}>
+                <div className="about-img" style={{position: "relative", minHeight: 750}}>
                     <div style={{
-                        width: "100%",
-                        paddingBottom: "100%",
+                        position: "absolute",
+                        inset: 0,
                         background: S1,
-                        position: "relative",
                         overflow: "hidden"
                     }}>
                         {ARTIST_PHOTO
@@ -2012,7 +2011,7 @@ textarea.fi{resize:vertical;min-height:120px}
                                     width: "100%",
                                     height: "100%",
                                     objectFit: "cover",
-                                    objectPosition: "center top",
+                                    objectPosition: "center center",
                                     display: "block"
                                 }}/>
                                 <div style={{
@@ -2066,7 +2065,7 @@ textarea.fi{resize:vertical;min-height:120px}
                 </div>
 
                 {/* Text column */}
-                <div className="about-text" style={{minWidth: 0}}>
+                <div className="about-text" style={{minWidth: 0, padding: "80px 24px 80px 0"}}>
                     <p style={{
                         ...mono,
                         fontSize: 9,
@@ -2483,8 +2482,7 @@ textarea.fi{resize:vertical;min-height:120px}
             {gallery &&
                 <GalleryLightbox photos={gallery.photos} title={gallery.title || ""} startIdx={gallery.startIdx || 0}
                                  onClose={() => setGallery(null)} onBack={gallery.fromGrid ? () => {
-                    setGallery(null);
-                    setPortGrid(true);
+                    history.back();
                 } : null}/>}
 
         </div>
