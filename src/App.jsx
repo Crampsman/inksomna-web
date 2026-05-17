@@ -1251,6 +1251,7 @@ export default function Inksomna() {
     const [gridScroll, setGridScroll] = useState(0);
     const galleryFromGrid = useRef(false);
     const overlayStack = useRef([]);
+    const skipNextPop = useRef(false);
     const [form, setForm] = useState({name: "", email: "", message: ""});
     const [sent, setSent] = useState(false);
 
@@ -1283,6 +1284,7 @@ export default function Inksomna() {
 
         /* Handle phone back button */
         const onPop = () => {
+            if (skipNextPop.current) { skipNextPop.current = false; return; }
             const top = overlayStack.current.pop();
             if (top === "gallery") {
                 setGallery(null);
@@ -2454,8 +2456,13 @@ textarea.fi{resize:vertical;min-height:120px}
                     isHidden={!!(gallery && gallery.fromGrid)}
                     items={allWorks}
                     onClose={() => {
+                        skipNextPop.current = true;
+                        overlayStack.current.pop();
                         setPortGrid(false);
                         setGridScroll(0);
+                        history.back();
+                        const s = parseInt(document.body.dataset.mainScroll||"0");
+                        requestAnimationFrame(()=>window.scrollTo(0,s));
                     }}
                     savedScroll={gridScroll}
                     onScroll={setGridScroll}
@@ -2482,6 +2489,11 @@ textarea.fi{resize:vertical;min-height:120px}
             {gallery &&
                 <GalleryLightbox photos={gallery.photos} title={gallery.title || ""} startIdx={gallery.startIdx || 0}
                                  onClose={() => setGallery(null)} onBack={gallery.fromGrid ? () => {
+                    skipNextPop.current = true;
+                    overlayStack.current.pop();
+                    galleryFromGrid.current = false;
+                    setGallery(null);
+                    setPortGrid(true);
                     history.back();
                 } : null}/>}
 
